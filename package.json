@@ -6,7 +6,8 @@
   "scripts": {
     "test": "standard; jest",
     "jest": "jest",
-    "standard": "standard --fix"
+    "standard": "standard --fix",
+    "server": "node server.js"
   },
   "keywords": [
     "Choirless",
@@ -21,7 +22,10 @@
     "nano": "^8.2.2"
   },
   "devDependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
     "jest": "^26.0.1",
+    "morgan": "^1.10.0",
     "standard": "^14.3.4"
   },
   "standard": {

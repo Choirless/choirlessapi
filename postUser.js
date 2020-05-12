@@ -34,6 +34,7 @@ const postUser = async (opts) => {
         doc.salt = kuuid.id()
         doc.password = sha256(doc.salt + opts.password)
       }
+      doc.verified = !!opts.verified
     } catch (e) {
       return {
         body: { ok: false, message: 'user not found' },

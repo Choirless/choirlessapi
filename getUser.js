@@ -16,6 +16,13 @@ const getUser = async (opts) => {
 
   // extract parameters
   const userId = opts.userId
+  if (!userId) {
+    return {
+      body: { ok: false, message: 'missing mandatory parameter userId' },
+      statusCode: 400,
+      headers: { 'Content-Type': 'application/json' }
+    }
+  }
 
   // fetch user from database
   let statusCode = 200
@@ -23,7 +30,7 @@ const getUser = async (opts) => {
   try {
     debug('getUser', userId)
     const user = await db.get(userId)
-    body = { ok: true, user: user }
+    body = { ok: true, user: user, choirs: [] }
     // don't show stored password & salt
     delete body.user.password
     delete body.user.salt

@@ -31,7 +31,7 @@ const postUserLogin = async (opts) => {
 
     // if there is a doc for this email address and the password is correct
     if (doc && sha256(doc.salt + opts.password) === doc.password) {
-      body = { ok: true, user: doc }
+      body = { ok: true, user: doc, choirs: [] }
       // don't show stored password & salt
       delete body.user.password
       delete body.user.salt

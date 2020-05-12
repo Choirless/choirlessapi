@@ -7,10 +7,9 @@ const nano = Nano(COUCH_URL)
 process.env.COUCH_URL = COUCH_URL
 process.env.COUCH_USERS_DATABASE = DB
 const postUser = require('./postUser.js')
-const getUser = require('./postUser.js')
 const postUserLogin = require('./postUserLogin.js')
 const postUserVerify = require('./postUserVerify.js')
-const getUserProfile = require('./getUserProfile.js')
+const getUser = require('./getUser.js')
 
 // test users
 let rita, sue, bob
@@ -186,8 +185,8 @@ test('postUserLogin - login user after verification', async () => {
   expect(response.body.user.verified).toBe(true)
 })
 
-test('getUserProfile - get profile', async () => {
-  const response = await getUserProfile({ userId: rita })
+test('getUser - get profile', async () => {
+  const response = await getUser({ userId: rita })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(response.body.user.type).toBe('user')
@@ -199,8 +198,8 @@ test('getUserProfile - get profile', async () => {
   expect(response.body.choirs.length).toBe(0)
 })
 
-test('getUserProfile - get profile - invalid user', async () => {
-  const response = await getUserProfile({ userId: 'frank' })
+test('getUser - get profile - invalid user', async () => {
+  const response = await getUser({ userId: 'frank' })
   expect(response.statusCode).toBe(404)
   expect(response.body.ok).toBe(false)
 })

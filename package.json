@@ -1,0 +1,32 @@
+{
+  "name": "choirlessapi",
+  "version": "1.0.0",
+  "description": "Choirless API service",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard; jest",
+    "jest": "jest",
+    "standard": "standard --fix"
+  },
+  "keywords": [
+    "Choirless",
+    "CouchDB",
+    "Cloudant"
+  ],
+  "author": "Glynn Bird <glynn.bird@gmail.com>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "debug": "^4.1.1",
+    "kuuid": "^0.5.1",
+    "nano": "^8.2.2"
+  },
+  "devDependencies": {
+    "jest": "^26.0.1",
+    "standard": "^14.3.4"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  }
+}

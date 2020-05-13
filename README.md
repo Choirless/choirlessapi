@@ -8,13 +8,23 @@ This API can be deployed to IBM Cloud Functions (OpenWhisk) or during developmen
 
 The following environment variables configure how the API accesses the database
 
-- `COUCH_URL` - the URL of the CouchDB/Cloudant service e.g. `http://admin:admin@localhost:5984`
-- `COUCH_USERS_DATABASE` - the name of the users database.
+- `COUCH_URL` - the URL of the CouchDB/Cloudant service e.g. `http://admin:admin@localhost:5984`.
+- `COUCH_USERS_DATABASE` - the name of the users database, storing registered Choirless users.
 - `COUCH_CHOIRLESS_DATABASE` - the name of the main choirless database (stores choirs/members/songs/parts).
 
 ## Setup
 
 The databases and secondary indexes can be setup by running `setup.sh` on a shell with the appropriate environment variables set.
+
+## Testing
+
+Run the automated test suite with:
+
+```sh
+npm run test
+```
+
+Tests are configured to run automatically in Travis.
 
 ## Running dev server
 
@@ -38,6 +48,21 @@ Read the [API.md](API Reference).
 
 The following objects are stored:
 
+```
+                         +--------------+             +---------------+
+                         |              |            /|               |
+                         |    choir     +-------------+     song      |
+                         |              |            \|               |
+                         +------+-------+             +-------+-------+
+                                |                             |
+                                |                             |
++-------------+       +--------/-\-----------+         +-----/-\------+
+|             |       |                      |         |              |
+|    user     +-------+     choirmember      |         |  songpart    |
+|             |       |                      |         |              |
++-------------+       +----------------------+         +--------------+
+```
+
 ### Users
 
 ```js
@@ -54,7 +79,7 @@ The following objects are stored:
 }
 ```
 
-### Choir
+### Choirs
 
 ```js
 {
@@ -127,7 +152,7 @@ memberType:
 }
 ```
 
-partType
+partType:
 
 - `backing` - backing track
 - `reference` - exemplar rendition of part

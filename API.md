@@ -161,7 +161,7 @@ Returns
 
 ### GET /choir/song
 
-Add/Edit a choir's song
+Get a choir's song by id
 
 Parameters:
 
@@ -174,5 +174,83 @@ Returns
 {
   ok: true,
   song: { ... song document ... }
+}
+```
+
+### GET /choir/songs
+
+Get a list of a choir's songs
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+
+Returns
+
+```js
+{
+  ok: true,
+  songs: [{ ... song document ... }, { ... song document ... }]
+}
+```
+
+
+### POST /choir/songpart
+
+Insert/update a song part
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+- `partId` - the id of the part (required for updates, if omitted a new song part is created)
+- `partName` - name of the part e.g. drums, alto
+- `partType` - one of `backing`/`reference`/`rendition`
+- `userId` - the id of the user (required for new parts)
+- `userName` - the name of the user (required for new parts)
+
+Returns
+
+```js
+{
+  ok: true,
+  partId: '<songpart id>'
+}
+```
+
+### GET /choir/songpart
+
+Get a single songpart
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the choir (required)
+- `partId` - the id of the part (required)
+
+Returns
+
+```js
+{
+  ok: true,
+  part: { ... part doc ... }'
+}
+```
+
+
+### GET /choir/songparts
+
+Get all parts of a song
+
+Parameters:
+
+- `songId` - the id of the choir (required)
+
+Returns
+
+```js
+{
+  ok: true,
+  parts: [{ ... part doc ... }, { ... part doc ... }]
 }
 ```

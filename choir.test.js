@@ -16,11 +16,16 @@ const getChoirMembers = require('./getChoirMembers.js')
 const postChoirJoin = require('./postChoirJoin.js')
 const postChoirSong = require('./postChoirSong.js')
 const getChoirSong = require('./getChoirSong.js')
+const getChoirSongs = require('./getChoirSongs.js')
+const postChoirSongPart = require('./postChoirSongPart.js')
+const getChoirSongPart = require('./getChoirSongPart.js')
+const getChoirSongParts = require('./getChoirSongParts.js')
 
 // test users
 let rita, sue, bob
 let london, bristol, manchester
 let song1, song2
+let part1, part2, part3
 
 beforeAll(async () => {
   await nano.db.create(DB1)
@@ -371,6 +376,94 @@ test('postChoirSong - edit song', async () => {
   expect(response.body.song.name).toBe(obj.name)
   expect(response.body.song.description).toBe(obj.description)
   expect(response.body.song.partNames).toStrictEqual(obj.partNames)
+})
+
+test('getChoirSongs - edit song', async () => {
+  let response = await getChoirSongs({ choirId: london })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.songs.length).toBe(2)
+
+  response = await getChoirSongs({ choirId: manchester })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.songs.length).toBe(0)
+})
+
+test('postChoirSongPart - create part', async () => {
+  let obj = {
+    choirId: london,
+    songId: song1,
+    userId: rita,
+    partName: 'tenor',
+    partType: 'reference',
+    userName: 'Rita'
+  }
+  let response = await postChoirSongPart(obj)
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  part1 = response.body.partId
+
+  obj = {
+    choirId: london,
+    songId: song1,
+    userId: sue,
+    partName: 'alto',
+    partType: 'reference',
+    userName: 'Sue'
+  }
+  response = await postChoirSongPart(obj)
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  part2 = response.body.partId
+
+  obj = {
+    choirId: london,
+    songId: song1,
+    userId: bob,
+    partName: 'Piano',
+    partType: 'backing',
+    userName: 'Bob'
+  }
+  response = await postChoirSongPart(obj)
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  part3 = response.body.partId
+})
+
+test('getChoirSongPart - get part', async () => {
+  let response = await getChoirSongPart({ choirId: london, songId: song1, partId: part1 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.part.userName).toBe('Rita')
+  expect(response.body.part.partName).toBe('tenor')
+  expect(response.body.part.partType).toBe('reference')
+
+  response = await getChoirSongPart({ choirId: london, songId: song1, partId: part2 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.part.userName).toBe('Sue')
+  expect(response.body.part.partName).toBe('alto')
+  expect(response.body.part.partType).toBe('reference')
+
+  response = await getChoirSongPart({ choirId: london, songId: song1, partId: part3 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.part.userName).toBe('Bob')
+  expect(response.body.part.partName).toBe('Piano')
+  expect(response.body.part.partType).toBe('backing')
+})
+
+test('getChoirSongParts - get all parts', async () => {
+  let response = await getChoirSongParts({ songId: song1 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.parts.length).toBe(3)
+
+  response = await getChoirSongParts({ songId: song2 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.parts.length).toBe(0)
 })
 
 afterAll(async () => {

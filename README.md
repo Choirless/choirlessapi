@@ -121,7 +121,6 @@ memberType:
   partId: "<partid>",
   partName: "alto",
   partType: "rendition",
-  renditionOf: "<partid>",
   createdBy: "<userid>",
   name: "Glynn Bird",
   createdOn: "2020-05-01"

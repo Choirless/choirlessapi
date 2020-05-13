@@ -14,7 +14,10 @@ const getUser = require('./getUser.js')
 const postUser = require('./postUser.js')
 const postUserLogin = require('./postUserLogin.js')
 const getChoir = require('./getChoir.js')
+const getChoirMembers = require('./getChoirMembers.js')
 const postChoir = require('./postChoir.js')
+const postChoirJoin = require('./postChoirJoin.js')
+const postChoirSong = require('./postChoirSong.js')
 
 app.get('/user', async (req, res) => {
   const response = await getUser(req.query)
@@ -36,8 +39,23 @@ app.get('/choir', async (req, res) => {
   res.status(response.statusCode).send(response.body)
 })
 
+app.get('/choir/members', async (req, res) => {
+  const response = await getChoirMembers(req.query)
+  res.status(response.statusCode).send(response.body)
+})
+
 app.post('/choir', async (req, res) => {
   const response = await postChoir(req.body)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.post('/choir/join', async (req, res) => {
+  const response = await postChoirJoin(req.body)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.post('/choir/song', async (req, res) => {
+  const response = await postChoirSong(req.body)
   res.status(response.statusCode).send(response.body)
 })
 

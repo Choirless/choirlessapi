@@ -36,7 +36,8 @@ Returns:
 
 ```js
 {
-  ok: true
+  ok: true,
+  userId: '<id of user>'
 }
 ```
 
@@ -134,5 +135,44 @@ Returns
 ```js
 {
   ok: true
+}
+```
+
+### POST /choir/song
+
+Add/Edit a choir's song
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `userId` - the id of the user adding the song (required)
+- `name` - the name of the song (required)
+- `description` - a description of a song
+- `partNames` - an array of parts e.g. `['alto','tenor','soprano']`
+
+Returns
+
+```js
+{
+  ok: true,
+  songId: '<id of song>'
+}
+```
+
+### GET /choir/song
+
+Add/Edit a choir's song
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+
+Returns
+
+```js
+{
+  ok: true,
+  song: { ... song document ... }
 }
 ```

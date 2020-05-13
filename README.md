@@ -54,11 +54,6 @@ The following objects are stored:
 }
 ```
 
-Secondary Indexes
-
-- `email` - log in 
-- `createdOn` - sign ups by day
-
 ### Choir
 
 ```js
@@ -80,10 +75,6 @@ choirType:
 - `private` - invite only
 - `public` - anyone can join
 
-Secondary Indexes
-
-- `createdBy` - to allow a user to list the choirs they own
-
 ### Choir Members
 
 ```js
@@ -103,32 +94,21 @@ memberType:
 - `leader` - can create songs, and reference parts
 - `member` - can create renditions of parts
 
-Secondary Indexes
-
-- `userid` - to get a list of choirs a user is a member of
-
-
 ### Songs
 
 ```js
 {
   _id: "<choirid>:song:<soingid>"
   type: "song",
-  description: "The Lorem Ipsum Song",
+  name: "The Lorem Ipum Song",
+  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   choirId: "<choirid>",
   songId: "<songid>",
-  createdBy: "<userid>",
+  userId: "<userid>",
   createdOn: "2020-05-01",
-  printedAssets: [
-    { "name": "score", path: "<som cos key"},
-    { "name": "lyrics", path: "<som cos key"}],
   partNames: ["baritone", "tenor", "alto", "soprano"]
 }
 ```
-
-Secondary Indexes
-
--
 
 ### Song parts
 
@@ -153,7 +133,3 @@ partType
 - `backing` - backing track
 - `reference` - exemplar rendition of part
 - `rendition` - choir members rendition of a reference part
-
-Secondary Indexes
-
--

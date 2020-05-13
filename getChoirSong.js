@@ -4,10 +4,11 @@ let nano = null
 let db = null
 const DB_NAME = process.env.COUCH_CHOIRLESS_DATABASE
 
-// fetch a choir by known id
+// fetch a song knowing choirId/songId
 // Parameters:
 // - `choirId` - the choir to fetch
-const getChoir = async (opts) => {
+// - `songId` - the song to fetch
+const getChoirSong = async (opts) => {
   // connect to db - reuse connection if present
   if (!db) {
     nano = Nano(process.env.COUCH_URL)
@@ -15,10 +16,9 @@ const getChoir = async (opts) => {
   }
 
   // extract parameters
-  const choirId = opts.choirId
-  if (!choirId) {
+  if (!opts.choirId || !opts.songId) {
     return {
-      body: { ok: false, message: 'missing mandatory parameter choirId' },
+      body: { ok: false, message: 'missing mandatory parameters' },
       statusCode: 400,
       headers: { 'Content-Type': 'application/json' }
     }
@@ -28,15 +28,16 @@ const getChoir = async (opts) => {
   let statusCode = 200
   let body = null
   try {
-    debug('getChoir', choirId)
-    const choir = await db.get(choirId)
-    delete choir._id
-    delete choir._rev
-    delete choir.i1
-    delete choir.i2
-    body = { ok: true, choir: choir }
+    const id = opts.choirId + ':song:' + opts.songId
+    debug('getChoirSong', id)
+    const song = await db.get(id)
+    delete song._id
+    delete song._rev
+    delete song.i1
+    delete song.i2
+    body = { ok: true, song: song }
   } catch (e) {
-    body = { ok: false, message: 'choir not found' }
+    body = { ok: false, message: 'song not found' }
     statusCode = 404
   }
 
@@ -48,4 +49,4 @@ const getChoir = async (opts) => {
   }
 }
 
-module.exports = getChoir
+module.exports = getChoirSong

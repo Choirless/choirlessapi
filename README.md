@@ -42,7 +42,7 @@ echo 'to do'
 
 ## API Reference
 
-Read the [API.md](API Reference).
+Read the [API Reference](API.md).
 
 ## Objects
 

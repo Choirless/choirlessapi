@@ -4,7 +4,6 @@ const kuuid = require('kuuid')
 const sha256 = require('./lib/sha256.js')
 let nano = null
 let db = null
-const DB_NAME = process.env.COUCH_USERS_DATABASE
 
 // create/edit a user
 // Parameters:
@@ -16,7 +15,7 @@ const postUser = async (opts) => {
   // connect to db - reuse connection if present
   if (!db) {
     nano = Nano(process.env.COUCH_URL)
-    db = nano.db.use(DB_NAME)
+    db = nano.db.use(process.env.COUCH_USERS_DATABASE)
   }
 
   // extract parameters

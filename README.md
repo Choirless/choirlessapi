@@ -9,7 +9,8 @@ This API can be deployed to IBM Cloud Functions (OpenWhisk) or during developmen
 The following environment variables configure how the API accesses the database
 
 - `COUCH_URL` - the URL of the CouchDB/Cloudant service e.g. `http://admin:admin@localhost:5984`
-- `COUCH_USERS_DATABASE` - the name of the users database
+- `COUCH_USERS_DATABASE` - the name of the users database.
+- `COUCH_CHOIRLESS_DATABASE` - the name of the main choirless database (stores choirs/members/songs/parts).
 
 ## Setup
 
@@ -67,7 +68,8 @@ Secondary Indexes
   choirId: "<choirid>",
   name: "IBM Bristol Choir",
   description: "IBM Bristol office choir.",
-  createdBy: "<userid>",
+  createdByUserId: "<userid>",
+  createdByName: "Bob",
   createdOn: "2020-05-01",
   choirType: "private"
 }
@@ -86,7 +88,7 @@ Secondary Indexes
 
 ```js
 {
-  _id: "<choirid>:member<userId>",
+  _id: "<choirid>:member:<userId>",
   type: "choirmember",
   choirId: "<choirid>",
   userId: "<userid>",
@@ -110,7 +112,7 @@ Secondary Indexes
 
 ```js
 {
-  _id: "<choirid>:song<soingid>"
+  _id: "<choirid>:song:<soingid>"
   type: "song",
   description: "The Lorem Ipsum Song",
   choirId: "<choirid>",
@@ -132,7 +134,7 @@ Secondary Indexes
 
 ```js
 {
-  _id: "<choirid>:song<songid>:part<partid>"
+  _id: "<choirid>:song:<songid>:part:<partid>"
   type: "songpart",
   choirId: "<choirid>",
   songId: "<songid>",

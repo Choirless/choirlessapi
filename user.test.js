@@ -1,25 +1,29 @@
 const COUCH_URL = 'http://admin:admin@localhost:5984'
-const DB = 'choirlesstest_users'
+const ts = new Date().getTime()
+const DB1 = 'choirlesstest_users_' + ts
+const DB2 = 'choirlesstest_main_' + ts
 const Nano = require('nano')
 const nano = Nano(COUCH_URL)
 
 // the code we're testing
 process.env.COUCH_URL = COUCH_URL
-process.env.COUCH_USERS_DATABASE = DB
+process.env.COUCH_USERS_DATABASE = DB1
+process.env.COUCH_CHOIRLESS_DATABASE = DB1
 const postUser = require('./postUser.js')
 const postUserLogin = require('./postUserLogin.js')
-const postUserVerify = require('./postUserVerify.js')
 const getUser = require('./getUser.js')
 
 // test users
 let rita, sue, bob
 
 beforeAll(async () => {
-  await nano.db.create(DB)
+  await nano.db.create(DB1)
+  await nano.db.create(DB2)
 })
 
 afterAll(async () => {
-  await nano.db.destroy(DB)
+  await nano.db.destroy(DB1)
+  await nano.db.destroy(DB2)
 })
 
 test('postUserLogin - missing parameters #1', async () => {
@@ -161,16 +165,10 @@ test('postUserLogin - login user after changes', async () => {
   expect(response.body.user.verified).toBe(false)
 })
 
-test('postUserVerify - set verified', async () => {
-  const response = await postUserVerify({ userId: rita })
+test('postUser - change verified', async () => {
+  const response = await postUser({ userId: rita, verified: true })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
-})
-
-test('postUserVerify - set verified - missing userId', async () => {
-  const response = await postUserVerify({ })
-  expect(response.statusCode).toBe(400)
-  expect(response.body.ok).toBe(false)
 })
 
 test('postUserLogin - login user after verification', async () => {
@@ -183,6 +181,8 @@ test('postUserLogin - login user after verification', async () => {
   expect(response.body.user.password).toBe(undefined)
   expect(response.body.user.salt).toBe(undefined)
   expect(response.body.user.verified).toBe(true)
+  expect(response.body.user._id).toBe(undefined)
+  expect(response.body.user._rev).toBe(undefined)
 })
 
 test('getUser - get profile', async () => {
@@ -195,6 +195,8 @@ test('getUser - get profile', async () => {
   expect(response.body.user.password).toBe(undefined)
   expect(response.body.user.salt).toBe(undefined)
   expect(response.body.user.verified).toBe(true)
+  expect(response.body.user._id).toBe(undefined)
+  expect(response.body.user._rev).toBe(undefined)
   expect(response.body.choirs.length).toBe(0)
 })
 

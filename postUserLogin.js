@@ -3,7 +3,7 @@ const debug = require('debug')('choirless')
 const sha256 = require('./lib/sha256.js')
 let nano = null
 let db = null
-const DB_NAME = process.env.COUCH_USERS_DATABASE
+let choirlessdb = null
 
 // fetch a user with username & password
 // Parameters:
@@ -13,7 +13,8 @@ const postUserLogin = async (opts) => {
   // connect to db - reuse connection if present
   if (!db) {
     nano = Nano(process.env.COUCH_URL)
-    db = nano.db.use(DB_NAME)
+    db = nano.db.use(process.env.COUCH_USERS_DATABASE)
+    choirlessdb = nano.db.use(process.env.COUCH_CHOIRLESS_DATABASE)
   }
 
   // fetch user from database
@@ -31,10 +32,30 @@ const postUserLogin = async (opts) => {
 
     // if there is a doc for this email address and the password is correct
     if (doc && sha256(doc.salt + opts.password) === doc.password) {
-      body = { ok: true, user: doc, choirs: [] }
+      const query = {
+        selector: {
+          type: 'choirmember',
+          i2: doc._id
+        }
+      }
+      // load choirs that this user is a member of
+      const memberships = await choirlessdb.find(query)
+      body = {
+        ok: true,
+        user: doc,
+        choirs: memberships.docs.map((d) => {
+          delete d._id
+          delete d._rev
+          delete d.i1
+          delete d.i2
+          return d
+        })
+      }
       // don't show stored password & salt
       delete body.user.password
       delete body.user.salt
+      delete body.user._id
+      delete body.user._rev
     } else {
       body = { ok: false }
       statusCode = 403

@@ -24,12 +24,12 @@ Returns
 
 Create a new user or edit an existing one.
 
-Parameters (all optional):
+Parameters:
 
 - `userId` - if omitted a new user is generated.
-- `name` - name of user.
-- `password` - password.
-- `email` - email address of user.
+- `name` - name of user (required for new user).
+- `password` - password  (required for new user).
+- `email` - email address of user (required for new user).
 - `verified` - whether the user is verified or not.
 
 Returns:

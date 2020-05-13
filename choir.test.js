@@ -1,7 +1,7 @@
 const COUCH_URL = 'http://admin:admin@localhost:5984'
 const ts = new Date().getTime()
-const DB1 = 'choirlesstest_users_' + ts
-const DB2 = 'choirlesstest_main_' + ts
+const DB1 = 'choirtest_users_' + ts
+const DB2 = 'choirtest_main_' + ts
 const Nano = require('nano')
 const nano = Nano(COUCH_URL)
 

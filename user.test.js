@@ -1,7 +1,7 @@
 const COUCH_URL = 'http://admin:admin@localhost:5984'
 const ts = new Date().getTime()
-const DB1 = 'choirlesstest_users_' + ts
-const DB2 = 'choirlesstest_main_' + ts
+const DB1 = 'usertest_users' + ts
+const DB2 = 'usertest_main' + ts
 const Nano = require('nano')
 const nano = Nano(COUCH_URL)
 
@@ -197,7 +197,6 @@ test('getUser - get profile', async () => {
   expect(response.body.user.verified).toBe(true)
   expect(response.body.user._id).toBe(undefined)
   expect(response.body.user._rev).toBe(undefined)
-  expect(response.body.choirs.length).toBe(0)
 })
 
 test('getUser - get profile - invalid user', async () => {

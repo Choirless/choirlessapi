@@ -32,18 +32,29 @@ const postUserLogin = async (opts) => {
 
     // if there is a doc for this email address and the password is correct
     if (doc && sha256(doc.salt + opts.password) === doc.password) {
+      // fetch choir memberships
       const query = {
         selector: {
           type: 'choirmember',
           i2: doc._id
-        }
+        },
+        fields: ['choirId']
       }
-      // load choirs that this user is a member of
       const memberships = await choirlessdb.find(query)
+
+      // load choirs that this user is a member of
+      const choirIdList = memberships.docs.map((d) => { return d.choirId })
+      let choirs = { rows: [] }
+      if (choirIdList.length > 0) {
+        choirs = await choirlessdb.list({ keys: choirIdList, include_docs: true })
+      }
+
+      // form the response
       body = {
         ok: true,
         user: doc,
-        choirs: memberships.docs.map((d) => {
+        choirs: choirs.rows.map((a) => {
+          const d = a.doc
           delete d._id
           delete d._rev
           delete d.i1

@@ -80,12 +80,12 @@ app.post('/choir/songpart', async (req, res) => {
 })
 
 app.get('/choir/songparts', async (req, res) => {
-  const response = await getChoirSongParts(req.body)
+  const response = await getChoirSongParts(req.query)
   res.status(response.statusCode).send(response.body)
 })
 
 app.get('/choir/songpart', async (req, res) => {
-  const response = await getChoirSongPart(req.body)
+  const response = await getChoirSongPart(req.query)
   res.status(response.statusCode).send(response.body)
 })
 

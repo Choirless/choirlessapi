@@ -13,4 +13,4 @@ curl -X PUT "${COUCH_URL}/${COUCH_CHOIRLESS_DATABASE}?partitioned=true"
 
 # create a secondary indexes
 curl -X POST -H "${CTYPE}" -d'{"index":{"fields": ["type"]},"name":"byType","partitioned":true}' "${COUCH_URL}/${COUCH_CHOIRLESS_DATABASE}/_index"
-#curl -X POST -H "${CTYPE}" -d'{"index":{"fields": ["type","i2"]},"name":"i2"}' "${COUCH_URL}/${COUCH_CHOIRLESS_DATABASE}/_index"
+curl -X POST -H "${CTYPE}" -d'{"index":{"fields": ["userId","type"]},"name":"byUserIdType","partitioned":false}' "${COUCH_URL}/${COUCH_CHOIRLESS_DATABASE}/_index"

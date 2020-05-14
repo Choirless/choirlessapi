@@ -59,9 +59,7 @@ const postChoirSong = async (opts) => {
       name: opts.name,
       description: opts.description || '',
       partNames: opts.partNames || [],
-      createdOn: now.toISOString(),
-      i1: opts.choirId,
-      i2: opts.userId
+      createdOn: now.toISOString()
     }
   }
 

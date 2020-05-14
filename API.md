@@ -62,6 +62,23 @@ Returns:
 }
 ```
 
+### GET /user/choirs
+
+Get a list of the choirs that a user is a member of
+
+Parameters:
+
+- `userId` - user id
+
+Returns:
+
+```js
+{
+  ok: true,
+  choirs: [ { choir1 }. { choir 2 } ]
+}
+```
+
 ## Choir
 
 ### GET /choir
@@ -244,6 +261,7 @@ Get all parts of a song
 
 Parameters:
 
+- `choirId` - the id of the choir (required)
 - `songId` - the id of the choir (required)
 
 Returns

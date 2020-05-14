@@ -34,8 +34,6 @@ const getChoirSongPart = async (opts) => {
     const part = await db.get(id)
     delete part._id
     delete part._rev
-    delete part.i1
-    delete part.i2
     body = { ok: true, part: part }
   } catch (e) {
     body = { ok: false, message: 'part not found' }

@@ -83,7 +83,7 @@ The following objects are stored:
 
 ```js
 {
-  _id: "<choirid>",
+  _id: "<choirid>:0",
   type: "choir",
   choirId: "<choirid>",
   name: "IBM Bristol Choir",

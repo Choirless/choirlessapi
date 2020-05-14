@@ -30,18 +30,15 @@ const getChoirSongs = async (opts) => {
     debug('getChoirSongs', opts.choirId)
     const query = {
       selector: {
-        type: 'song',
-        i1: opts.choirId
+        type: 'song'
       }
     }
-    const results = await db.find(query)
+    const results = await db.partitionedFind(opts.choirId, query)
     body = {
       ok: true,
       songs: results.docs.map((d) => {
         delete d._id
         delete d._rev
-        delete d.i1
-        delete d.i2
         return d
       })
     }

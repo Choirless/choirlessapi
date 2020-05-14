@@ -24,7 +24,7 @@ const getChoirSong = async (opts) => {
     }
   }
 
-  // fetch user from database
+  // fetch song from database
   let statusCode = 200
   let body = null
   try {
@@ -33,8 +33,6 @@ const getChoirSong = async (opts) => {
     const song = await db.get(id)
     delete song._id
     delete song._rev
-    delete song.i1
-    delete song.i2
     body = { ok: true, song: song }
   } catch (e) {
     body = { ok: false, message: 'song not found' }

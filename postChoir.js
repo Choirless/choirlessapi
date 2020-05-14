@@ -21,7 +21,7 @@ const postChoir = async (opts) => {
   }
 
   // extract parameters
-  const choirId = opts.choirId
+  let choirId = opts.choirId
   const now = new Date()
   let doc = {}
 
@@ -38,11 +38,10 @@ const postChoir = async (opts) => {
   if (choirId) {
     try {
       debug('postChoir fetch choir', choirId)
-      doc = await db.get(choirId)
+      doc = await db.get(choirId + ':0')
       doc.name = opts.name ? opts.name : doc.name
       doc.description = opts.description ? opts.description : doc.description
       doc.choirType = opts.choirType ? opts.choirType : doc.choirType
-      doc.i2 = doc.name
     } catch (e) {
       return {
         body: { ok: false, message: 'choir not found' },
@@ -58,19 +57,17 @@ const postChoir = async (opts) => {
         headers: { 'Content-Type': 'application/json' }
       }
     }
-    const id = kuuid.id()
+    choirId = kuuid.id()
     doc = {
-      _id: id,
+      _id: choirId + ':0',
       type: 'choir',
-      choirId: id,
+      choirId: choirId,
       name: opts.name,
       description: opts.description,
       choirType: opts.choirType,
       createdOn: now.toISOString(),
       createdByUserId: opts.createdByUserId,
-      createdByName: opts.createdByName,
-      i1: now.toISOString(),
-      i2: opts.name
+      createdByName: opts.createdByName
     }
   }
 
@@ -79,24 +76,22 @@ const postChoir = async (opts) => {
   let body = null
   try {
     debug('postChoir write choir', doc)
-    const response = await db.insert(doc)
+    await db.insert(doc)
     // if this is the creation of a new choir
     if (!doc._rev) {
       // add the choir creator as a member
       const member = {
-        _id: response.id + ':member:' + opts.createdByUserId,
+        _id: choirId + ':member:' + opts.createdByUserId,
         type: 'choirmember',
-        choirId: response.id,
+        choirId: choirId,
         userId: opts.createdByUserId,
         joined: now.toISOString(),
         name: opts.createdByName,
-        memberType: 'leader',
-        i1: response.id,
-        i2: opts.createdByUserId
+        memberType: 'leader'
       }
       await db.insert(member)
     }
-    body = { ok: true, choirId: response.id }
+    body = { ok: true, choirId: choirId }
   } catch (e) {
     body = { ok: false }
     statusCode = 404

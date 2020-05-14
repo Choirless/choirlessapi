@@ -13,6 +13,7 @@ app.use(morgan('dev'))
 const getUser = require('./getUser.js')
 const postUser = require('./postUser.js')
 const postUserLogin = require('./postUserLogin.js')
+const getUserChoirs = require('./getUserChoirs.js')
 const getChoir = require('./getChoir.js')
 const getChoirMembers = require('./getChoirMembers.js')
 const getChoirSong = require('./getChoirSong.js')
@@ -36,6 +37,11 @@ app.post('/user', async (req, res) => {
 
 app.post('/user/login', async (req, res) => {
   const response = await postUserLogin(req.body)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.get('/user/choirs', async (req, res) => {
+  const response = await getUserChoirs(req.query)
   res.status(response.statusCode).send(response.body)
 })
 

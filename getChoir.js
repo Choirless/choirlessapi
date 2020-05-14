@@ -29,11 +29,9 @@ const getChoir = async (opts) => {
   let body = null
   try {
     debug('getChoir', choirId)
-    const choir = await db.get(choirId)
+    const choir = await db.get(choirId + ':0')
     delete choir._id
     delete choir._rev
-    delete choir.i1
-    delete choir.i2
     body = { ok: true, choir: choir }
   } catch (e) {
     body = { ok: false, message: 'choir not found' }

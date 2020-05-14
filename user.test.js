@@ -18,7 +18,7 @@ let rita, sue, bob
 
 beforeAll(async () => {
   await nano.db.create(DB1)
-  await nano.db.create(DB2)
+  await nano.db.create(DB2, { partitioned: true })
 })
 
 afterAll(async () => {

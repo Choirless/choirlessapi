@@ -20,6 +20,7 @@ const getChoirSongs = require('./getChoirSongs.js')
 const postChoirSongPart = require('./postChoirSongPart.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
+const getUserChoirs = require('./getUserChoirs.js')
 
 // test users
 let rita, sue, bob
@@ -29,7 +30,7 @@ let part1, part2, part3
 
 beforeAll(async () => {
   await nano.db.create(DB1)
-  await nano.db.create(DB2)
+  await nano.db.create(DB2, { partitioned: true })
   let obj = {
     name: 'Bob',
     email: 'bob@aol.com',
@@ -455,15 +456,29 @@ test('getChoirSongPart - get part', async () => {
 })
 
 test('getChoirSongParts - get all parts', async () => {
-  let response = await getChoirSongParts({ songId: song1 })
+  let response = await getChoirSongParts({ songId: song1, choirId: london })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(response.body.parts.length).toBe(3)
 
-  response = await getChoirSongParts({ songId: song2 })
+  response = await getChoirSongParts({ songId: song2, choirId: london })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(response.body.parts.length).toBe(0)
+})
+
+test('getUserChoirs - get choir memberships', async () => {
+  const response = await getUserChoirs({ userId: rita })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.choirs.length).toBe(2)
+})
+
+test('getUserChoirs - get choir memberships', async () => {
+  const response = await getUserChoirs({ userId: 'frank' })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.choirs.length).toBe(0)
 })
 
 afterAll(async () => {

@@ -60,9 +60,7 @@ const postChoirSongPart = async (opts) => {
       userName: opts.userName,
       createdOn: now.toISOString(),
       partName: opts.partName || '',
-      partType: opts.partType || 'backing',
-      i1: opts.choirId,
-      i2: opts.songId
+      partType: opts.partType || 'backing'
     }
   }
 

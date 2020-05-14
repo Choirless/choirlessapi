@@ -36,9 +36,7 @@ const postChoirJoin = async (opts) => {
     choirId: opts.choirId,
     name: opts.name,
     joined: now.toISOString(),
-    memberType: opts.memberType,
-    i1: opts.choirId,
-    i2: opts.userId
+    memberType: opts.memberType
   }
 
   // write user to database

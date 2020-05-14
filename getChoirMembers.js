@@ -28,15 +28,21 @@ const getChoirMembers = async (opts) => {
   let statusCode = 200
   let body = null
   try {
-    debug('getChoir', choirId)
+    debug('getChoirMembers', choirId)
     const query = {
       selector: {
-        type: 'choirmember',
-        i1: choirId
+        type: 'choirmember'
       }
     }
-    const response = await db.find(query)
-    body = { ok: true, members: response.docs.map((m) => { delete m._id; delete m._rev; delete m.i1; delete m.i2; return m }) }
+    const response = await db.partitionedFind(choirId, query)
+    body = {
+      ok: true,
+      members: response.docs.map((m) => {
+        delete m._id
+        delete m._rev
+        return m
+      })
+    }
   } catch (e) {
     body = { ok: false, message: 'choir not found' }
     statusCode = 404

@@ -10,6 +10,7 @@ app.use(bodyParser.json())
 // logging
 app.use(morgan('dev'))
 
+// load the actions
 const getUser = require('./getUser.js')
 const postUser = require('./postUser.js')
 const postUserLogin = require('./postUserLogin.js')
@@ -25,6 +26,7 @@ const postChoirSongPart = require('./postChoirSongPart.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
 
+// API endpoints
 app.get('/user', async (req, res) => {
   const response = await getUser(req.query)
   res.status(response.statusCode).send(response.body)
@@ -93,6 +95,11 @@ app.get('/choir/songparts', async (req, res) => {
 app.get('/choir/songpart', async (req, res) => {
   const response = await getChoirSongPart(req.query)
   res.status(response.statusCode).send(response.body)
+})
+
+// 404 everything else
+app.use((req, res, next) => {
+  res.status(404).send({ ok: false })
 })
 
 app.listen(port, () => console.log(`Choirless API test app listening at http://localhost:${port}`))

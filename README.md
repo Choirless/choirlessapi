@@ -57,8 +57,12 @@ Then require the module in your own code and use it (they rely on the presence o
 ```js
 const choirlessAPI = require('choirlessapi')
 const main = async () => {
-  const user = await choirlessAPI.getUser({ userId: 'someid' })
-  console.log(user)
+  try {
+    const user = await choirlessAPI.getUser({ userId: 'someid' })
+    console.log(user)
+  } catch (e) {
+    console.log('error', e)
+  }
 }
 main()
 ```

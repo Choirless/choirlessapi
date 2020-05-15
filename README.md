@@ -40,6 +40,46 @@ npm run server
 echo 'to do'
 ```
 
+## Using in your own project
+
+To save having to spin up your own API server, you can embed the API functions into your own code. First add this repo to your `package.json`:
+
+```js
+  ...
+  dependencies: {
+    "choirlessapi": "Choirless/choirlessapi"
+  }
+  ...
+```
+
+Then require the module in your own code and use it (they rely on the presence of the environment variables described in the _Configuration_ section):
+
+```js
+const choirlessAPI = require('choirlessapi')
+const main = async () => {
+  const user = await choirlessAPI.getUser({ userId: 'someid' })
+  console.log(user)
+}
+main()
+```
+
+Every function expects an object with parameters listed in the [API Reference](API.md) and returns a Promise:
+
+- getUser
+- postUser
+- postUserLogin
+- getUserChoirs
+- getChoir
+- getChoirMembers
+- getChoirSong
+- getChoirSongs
+- postChoir
+- postChoirJoin
+- postChoirSong
+- postChoirSongPart
+- getChoirSongPart
+- getChoirSongParts
+
 ## API Reference
 
 Read the [API Reference](API.md).

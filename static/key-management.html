@@ -3,14 +3,110 @@
 
     <head>
         <title>Choirless Key Management</title>
+
+        <style>
+
+            table{
+                border-collapse: collapse;
+            }
+
+            table td{
+                border: 1px solid black;
+                padding: 0.5em;
+            }
+
+        </style>
+
     </head>
 
     <body>
 
         <h1>Choirless Keys</h1>
 
-        
+        <h2>Existing Keys</h2>
+
+        <table id="existing">
+
+            <thead>
+                <tr>
+                    <td>Key Name</td>
+                    <td>Key</td>
+                    <td>Created By</td>
+                    <td>Creation Date</td>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <!--<tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>-->
+
+            </tbody>
+
+        </table>
 
     </body>
+
+    <script>
+
+        (function(){
+            'use strict';
+
+            var existingKeysTable = document.querySelector('table#existing');
+            var existingKeysTableBody = existingKeysTable.querySelector('tbody');
+
+            fetch('/keys/list', {
+                    credentials : 'include'
+                })
+                .then( function(response){
+                    if(response.ok){
+                        return response.json();
+                    } else {
+                        throw response;
+                    }
+                })
+                .then(results => {
+                    console.log(results);
+
+                    var keyTableDocumentFragment = document.createDocumentFragment();
+
+                    results.data.forEach(function(keyInfo){
+
+                        var row = document.createElement('tr');
+
+                        var name = document.createElement('td');
+                        var key = document.createElement('td');
+                        var createdBy = document.createElement('td');
+                        var creationDate = document.createElement('td');
+
+                        name.textContent = keyInfo.name;
+                        key.textContent = keyInfo._id;
+                        createdBy.textContent = keyInfo.owner;
+                        creationDate.textContent = keyInfo.created;
+
+                        row.appendChild(name);
+                        row.appendChild(key);
+                        row.appendChild(createdBy);
+                        row.appendChild(creationDate);
+
+                        keyTableDocumentFragment.appendChild(row)
+
+                    });
+
+                    existingKeysTableBody.appendChild(keyTableDocumentFragment);
+
+                })
+                .catch(function(err){
+                    console.log(err);
+                })
+            ;
+
+        }());
+
+    </script>
 
 </html>

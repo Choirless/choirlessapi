@@ -33,6 +33,13 @@ app.get('/__gtg', async( req, res ) => {
   res.end();
 })
 
+// API Key Management Endpoints
+app.use('/keys', [w3id], require('./keyManagement.js'))
+app.all('/__auth', w3id);
+
+// Protext API endpoints with key validation
+// app.use( require('./checkAPIKey.js') );
+
 // API endpoints
 app.get('/user', async (req, res) => {
   const response = await getUser(req.query)
@@ -103,10 +110,6 @@ app.get('/choir/songpart', async (req, res) => {
   const response = await getChoirSongPart(req.query)
   res.status(response.statusCode).send(response.body)
 })
-
-// API Key Creation Endpoints
-app.use('/keys', [w3id], require('./keyCreation.js'))
-app.all('/__auth', w3id);
 
 // 404 everything else
 app.use((req, res, next) => {

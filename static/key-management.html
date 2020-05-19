@@ -49,6 +49,17 @@
 
         </table>
 
+        <h2>Create Key</h2>
+
+        <form method="POST" action="/keys/create" id="create">
+
+            <label>Key name</label>
+            <input type="text" name="keyname" required/>
+
+            <input type="submit" value="Create">
+
+        </form>
+
     </body>
 
     <script>
@@ -58,6 +69,8 @@
 
             var existingKeysTable = document.querySelector('table#existing');
             var existingKeysTableBody = existingKeysTable.querySelector('tbody');
+
+            var createNewKeyForm = document.querySelector('form#create');
 
             fetch('/keys/list', {
                     credentials : 'include'
@@ -86,7 +99,7 @@
                         name.textContent = keyInfo.name;
                         key.textContent = keyInfo._id;
                         createdBy.textContent = keyInfo.owner;
-                        creationDate.textContent = keyInfo.created;
+                        creationDate.textContent = new Date(keyInfo.created);
 
                         row.appendChild(name);
                         row.appendChild(key);
@@ -104,6 +117,34 @@
                     console.log(err);
                 })
             ;
+
+            createNewKeyForm.addEventListener('submit', function(e){
+                e.preventDefault();
+                e.stopImmediatePropagation();
+
+                var keyname = this[0].value;
+
+                fetch('/keys/create', {
+                        method : "POST",
+                        credentials : "include",
+                        headers : {
+                            "Content-Type" : "application/json"
+                        },
+                        body : JSON.stringify( { keyname : keyname } ),
+                    })
+                    .then(function(res){
+                        if(res.ok){
+                            return res.json();
+                        } else {
+                            throw res;
+                        }
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    })
+                ;
+
+            }, false);
 
         }());
 

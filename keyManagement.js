@@ -14,12 +14,14 @@ router.get('/', (req, res, next) => {
 
 router.post('/create', async (req, res, next) => {
 
+	debug(req.body);
+
 	if(res.locals.w3id_userid && req.body.keyname){
 
 		const keyDetails = {
 			_id : kuuid.id(),
-			user : res.locals.w3id_userid,
-			owner : req.body.keyname,
+			owner : res.locals.w3id_userid,
+			name : req.body.keyname,
 			created : Date.now()
 		}
 

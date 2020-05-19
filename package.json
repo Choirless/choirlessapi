@@ -4,8 +4,9 @@
   "description": "Choirless API service",
   "main": "index.js",
   "scripts": {
-    "test": "standard; jest",
+    "test": "standard && jest",
     "jest": "jest",
+    "start": "node server.js",
     "standard": "standard --fix",
     "server": "node server.js"
   },

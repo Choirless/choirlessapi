@@ -1,4 +1,4 @@
-require('dotenv').config({ silent : process.env.NODE_ENV === "production" })
+require('dotenv').config({ silent: process.env.NODE_ENV === 'production' })
 const express = require('express')
 const bodyParser = require('body-parser')
 const port = process.env.PORT || 3000
@@ -28,8 +28,8 @@ const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
 
 // Health endpoint
-app.get('/__gtg', async( req, res ) => {
-  res.end();
+app.get('/__gtg', async (req, res) => {
+  res.end()
 })
 
 // API endpoints
@@ -108,4 +108,4 @@ app.use((req, res, next) => {
   res.status(404).send({ ok: false })
 })
 
-app.listen(port, () => console.log(`Choirless API test app listening at http://localhost:${port}`))
+app.listen(port, () => console.log(`Choirless API listening at http://localhost:${port}`))

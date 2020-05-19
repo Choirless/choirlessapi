@@ -5,6 +5,7 @@ const port = process.env.PORT || 3000
 const app = express()
 const morgan = require('morgan')
 const w3id = require('w3id-middleware')
+const whitelist = require('./whitelist.js')
 
 // parsing application/json
 app.use(bodyParser.json())
@@ -34,7 +35,7 @@ app.get('/__gtg', async( req, res ) => {
 })
 
 // API Key Management Endpoints
-app.use('/keys', [w3id], require('./keyManagement.js'))
+app.use('/keys', [/*w3id, */whitelist], require('./keyManagement.js'))
 app.all('/__auth', w3id);
 
 // Protect API endpoints with key validation

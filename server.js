@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 3000
 const app = express()
 const morgan = require('morgan')
+const w3id = require('w3id-middleware')
 
 // parsing application/json
 app.use(bodyParser.json())
@@ -31,6 +32,8 @@ const getChoirSongParts = require('./getChoirSongParts.js')
 app.get('/__gtg', async( req, res ) => {
   res.end();
 })
+
+app.get('/keys', [w3id], require('./keyCreation.js'))
 
 // API endpoints
 app.get('/user', async (req, res) => {

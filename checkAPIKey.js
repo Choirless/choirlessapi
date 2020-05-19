@@ -6,19 +6,28 @@ const db = nano.db.use(process.env.COUCH_KEYS_DATABASE)
 
 async function checkAPIKey( req, res, next ){
 
-    const storedKey = await db.get(req.body.key);
+    if(req.query.apikey){
 
-    debug(storedKey)
+        const storedKey = await db.get(req.query.apikey)
+    
+        if(storedKey){
+            next();
+        } else {
+            res.status(401);
+            res.json({
+                status : "err",
+                msg : "Invalid API key"
+            })
+        }
 
-    if(storedKey){
-        next();
     } else {
-        res.status(401);
+        res.status(422);
         res.json({
             status : "err",
-            msg : "Invalid API key"
-        })
+            msg : "No API key was passed with the request. Please append it to your request url with ?apikey=<YOUR_API_KEY>"
+        });
     }
+
 
 }
 

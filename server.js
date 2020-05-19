@@ -37,7 +37,7 @@ app.get('/__gtg', async( req, res ) => {
 app.use('/keys', [w3id], require('./keyManagement.js'))
 app.all('/__auth', w3id);
 
-// Protext API endpoints with key validation
+// Protect API endpoints with key validation
 // app.use( require('./checkAPIKey.js') );
 
 // API endpoints

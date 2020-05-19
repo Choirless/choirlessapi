@@ -355,6 +355,8 @@ paths:
               type: string
             userName:
               type: string
+            offset:
+              type: number
       responses:
         "200":
           description: "successful operation"

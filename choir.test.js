@@ -455,6 +455,51 @@ test('getChoirSongPart - get part', async () => {
   expect(response.body.part.partType).toBe('backing')
 })
 
+test('postChoirSongPart - update part', async () => {
+  let response = await getChoirSongPart({ choirId: london, songId: song1, partId: part1 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.part.userName).toBe('Rita')
+  expect(response.body.part.partName).toBe('tenor')
+  expect(response.body.part.partType).toBe('reference')
+  expect(response.body.part.offset).toBe(0)
+  const doc = response.body.part
+  doc.partId = part1
+
+  // edit offset
+  doc.offset = 150
+  response = await postChoirSongPart(doc)
+  expect(response.body.ok).toBe(true)
+  response = await getChoirSongPart({ choirId: london, songId: song1, partId: part1 })
+  expect(response.body.ok).toBe(true)
+  expect(response.body.part.userName).toBe('Rita')
+  expect(response.body.part.partName).toBe('tenor')
+  expect(response.body.part.partType).toBe('reference')
+  expect(response.body.part.offset).toBe(150)
+
+  // edit partName
+  doc.partName = 'improv'
+  response = await postChoirSongPart(doc)
+  expect(response.body.ok).toBe(true)
+  response = await getChoirSongPart({ choirId: london, songId: song1, partId: part1 })
+  expect(response.body.ok).toBe(true)
+  expect(response.body.part.userName).toBe('Rita')
+  expect(response.body.part.partName).toBe('improv')
+  expect(response.body.part.partType).toBe('reference')
+  expect(response.body.part.offset).toBe(150)
+
+  // edit partType
+  doc.partType = 'backing'
+  response = await postChoirSongPart(doc)
+  expect(response.body.ok).toBe(true)
+  response = await getChoirSongPart({ choirId: london, songId: song1, partId: part1 })
+  expect(response.body.ok).toBe(true)
+  expect(response.body.part.userName).toBe('Rita')
+  expect(response.body.part.partName).toBe('improv')
+  expect(response.body.part.partType).toBe('backing')
+  expect(response.body.part.offset).toBe(150)
+})
+
 test('getChoirSongParts - get all parts', async () => {
   let response = await getChoirSongParts({ songId: song1, choirId: london })
   expect(response.statusCode).toBe(200)

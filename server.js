@@ -26,6 +26,11 @@ const postChoirSongPart = require('./postChoirSongPart.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
 
+// Health endpoint
+app.get('/__gtg', async( req, res ) => {
+  res.end();
+})
+
 // API endpoints
 app.get('/user', async (req, res) => {
   const response = await getUser(req.query)

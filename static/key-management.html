@@ -6,8 +6,23 @@
 
         <style>
 
+            body{
+                font-family: sans-serif;
+                font-size: 14px;
+            }
+
             table{
                 border-collapse: collapse;
+            }
+
+            table thead{
+                background-color: black;
+                color: white;
+                font-weight: 800;
+            }
+
+            table thead td{
+                border: 1px solid white;
             }
 
             table td{
@@ -33,6 +48,7 @@
                     <td>Key</td>
                     <td>Created By</td>
                     <td>Creation Date</td>
+                    <td>Delete?</td>
                 </tr>
             </thead>
 
@@ -95,16 +111,55 @@
                         var key = document.createElement('td');
                         var createdBy = document.createElement('td');
                         var creationDate = document.createElement('td');
+                        var deleteKeyHolder = document.createElement('td');
+                        var deleteKeyAction = document.createElement('a');
 
                         name.textContent = keyInfo.name;
                         key.textContent = keyInfo._id;
                         createdBy.textContent = keyInfo.owner;
                         creationDate.textContent = new Date(keyInfo.created);
 
+                        deleteKeyAction.href = "#"
+                        deleteKeyAction.dataset.key = keyInfo._id;
+                        deleteKeyAction.textContent = "Delete";
+
+                        deleteKeyAction.addEventListener('click', function(e){
+                            e.preventDefault();
+                            e.stopImmediatePropagation();
+
+                            console.log(this.dataset.key);
+
+                            fetch('/keys/delete', {
+                                    method : "POST",
+                                    credentials : "include",
+                                    headers : {
+                                        "Content-Type" : "application/json"
+                                    },
+                                    body : JSON.stringify({
+                                        key : this.dataset.key
+                                    })
+                                })
+                                .then(function(response){
+                                    if(response.ok){
+                                        window.location.reload();
+                                    } else {
+                                        throw response
+                                    }
+                                })
+                                .catch(function(err){
+                                    console.log(err);
+                                })
+                            ;
+
+                        }, false);
+
+                        deleteKeyHolder.appendChild(deleteKeyAction);
+
                         row.appendChild(name);
                         row.appendChild(key);
                         row.appendChild(createdBy);
                         row.appendChild(creationDate);
+                        row.appendChild(deleteKeyHolder);
 
                         keyTableDocumentFragment.appendChild(row)
 
@@ -134,7 +189,7 @@
                     })
                     .then(function(res){
                         if(res.ok){
-                            return res.json();
+                            window.location.reload();
                         } else {
                             throw res;
                         }

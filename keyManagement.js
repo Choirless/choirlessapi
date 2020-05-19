@@ -16,7 +16,7 @@ router.post('/create', async (req, res, next) => {
 
 	debug(req.body);
 
-	if(res.locals.w3id_userid && req.body.keyname){
+	if(req.body.keyname){
 
 		const keyDetails = {
 			_id : kuuid.id(),

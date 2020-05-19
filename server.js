@@ -35,7 +35,7 @@ app.get('/__gtg', async( req, res ) => {
 })
 
 // API Key Management Endpoints
-app.use('/keys', [/*w3id, */whitelist], require('./keyManagement.js'))
+app.use('/keys', [w3id, whitelist], require('./keyManagement.js'))
 app.all('/__auth', w3id);
 
 // Protect API endpoints with key validation

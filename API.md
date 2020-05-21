@@ -231,6 +231,7 @@ Parameters:
 - `partType` - one of `backing`/`reference`/`rendition`
 - `userId` - the id of the user (required for new parts)
 - `userName` - the name of the user (required for new parts)
+- `offset` - the number of milliseconds after the reference part that this recording started (default 0)
 
 Returns
 

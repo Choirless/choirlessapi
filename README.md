@@ -200,7 +200,8 @@ memberType:
   partType: "rendition",
   createdBy: "<userid>",
   name: "Glynn Bird",
-  createdOn: "2020-05-01"
+  createdOn: "2020-05-01",
+  offset: 0
 }
 ```
 

@@ -116,4 +116,4 @@ app.use((req, res, next) => {
   res.status(404).send({ ok: false })
 })
 
-app.listen(port, () => console.log(`Choirless API test app listening at http://localhost:${port}`))
+app.listen(port, () => console.log(`Choirless API listening at http://localhost:${port}`))

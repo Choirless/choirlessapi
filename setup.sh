@@ -11,7 +11,7 @@ curl -X POST -H "${CTYPE}" -d'{"index":{"fields": ["email"]},"name":"byEmail"}' 
 # create choirless database (partitioned)
 curl -X PUT "${COUCH_URL}/${COUCH_CHOIRLESS_DATABASE}?partitioned=true"
 
-# create choirless keys database (partitioned)
+# create choirless keys database (unpartitioned)
 curl -X PUT "${COUCH_URL}/${COUCH_KEYS_DATABASE}?partitioned=false"
 
 # create a secondary indexes

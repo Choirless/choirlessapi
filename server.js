@@ -1,4 +1,4 @@
-require('dotenv').config({ silent : process.env.NODE_ENV === "production" })
+require('dotenv').config({ silent: process.env.NODE_ENV === 'production' })
 const express = require('express')
 const bodyParser = require('body-parser')
 const port = process.env.PORT || 3000
@@ -7,7 +7,7 @@ const morgan = require('morgan')
 const w3id = require('w3id-middleware')
 
 const whitelist = require('./whitelist.js')
-const keyProtect = require('./checkAPIKey.js');
+const keyProtect = require('./checkAPIKey.js')
 
 // parsing application/json
 app.use(bodyParser.json())
@@ -32,13 +32,13 @@ const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
 
 // Health endpoint
-app.get('/__gtg', async( req, res ) => {
-  res.end();
+app.get('/__gtg', async (req, res) => {
+  res.end()
 })
 
 // API Key Management Endpoints
 app.use('/keys', [w3id, whitelist], require('./keyManagement.js'))
-app.all('/__auth', w3id);
+app.all('/__auth', w3id)
 
 // API endpoints
 app.get('/user', [keyProtect], async (req, res) => {

@@ -4,6 +4,10 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 3000
 const app = express()
 const morgan = require('morgan')
+const w3id = require('w3id-middleware')
+
+const whitelist = require('./whitelist.js')
+const keyProtect = require('./checkAPIKey.js')
 
 // parsing application/json
 app.use(bodyParser.json())
@@ -32,73 +36,77 @@ app.get('/__gtg', async (req, res) => {
   res.end()
 })
 
+// API Key Management Endpoints
+app.use('/keys', [w3id, whitelist], require('./keyManagement.js'))
+app.all('/__auth', w3id)
+
 // API endpoints
-app.get('/user', async (req, res) => {
+app.get('/user', [keyProtect], async (req, res) => {
   const response = await getUser(req.query)
   res.status(response.statusCode).send(response.body)
 })
 
-app.post('/user', async (req, res) => {
+app.post('/user', [keyProtect], async (req, res) => {
   const response = await postUser(req.body)
   res.status(response.statusCode).send(response.body)
 })
 
-app.post('/user/login', async (req, res) => {
+app.post('/user/login', [keyProtect], async (req, res) => {
   const response = await postUserLogin(req.body)
   res.status(response.statusCode).send(response.body)
 })
 
-app.get('/user/choirs', async (req, res) => {
+app.get('/user/choirs', [keyProtect], async (req, res) => {
   const response = await getUserChoirs(req.query)
   res.status(response.statusCode).send(response.body)
 })
 
-app.get('/choir', async (req, res) => {
+app.get('/choir', [keyProtect], async (req, res) => {
   const response = await getChoir(req.query)
   res.status(response.statusCode).send(response.body)
 })
 
-app.get('/choir/members', async (req, res) => {
+app.get('/choir/members', [keyProtect], async (req, res) => {
   const response = await getChoirMembers(req.query)
   res.status(response.statusCode).send(response.body)
 })
 
-app.get('/choir/songs', async (req, res) => {
+app.get('/choir/songs', [keyProtect], async (req, res) => {
   const response = await getChoirSongs(req.query)
   res.status(response.statusCode).send(response.body)
 })
 
-app.get('/choir/song', async (req, res) => {
+app.get('/choir/song', [keyProtect], async (req, res) => {
   const response = await getChoirSong(req.query)
   res.status(response.statusCode).send(response.body)
 })
 
-app.post('/choir', async (req, res) => {
+app.post('/choir', [keyProtect], async (req, res) => {
   const response = await postChoir(req.body)
   res.status(response.statusCode).send(response.body)
 })
 
-app.post('/choir/join', async (req, res) => {
+app.post('/choir/join', [keyProtect], async (req, res) => {
   const response = await postChoirJoin(req.body)
   res.status(response.statusCode).send(response.body)
 })
 
-app.post('/choir/song', async (req, res) => {
+app.post('/choir/song', [keyProtect], async (req, res) => {
   const response = await postChoirSong(req.body)
   res.status(response.statusCode).send(response.body)
 })
 
-app.post('/choir/songpart', async (req, res) => {
+app.post('/choir/songpart', [keyProtect], async (req, res) => {
   const response = await postChoirSongPart(req.body)
   res.status(response.statusCode).send(response.body)
 })
 
-app.get('/choir/songparts', async (req, res) => {
+app.get('/choir/songparts', [keyProtect], async (req, res) => {
   const response = await getChoirSongParts(req.query)
   res.status(response.statusCode).send(response.body)
 })
 
-app.get('/choir/songpart', async (req, res) => {
+app.get('/choir/songpart', [keyProtect], async (req, res) => {
   const response = await getChoirSongPart(req.query)
   res.status(response.statusCode).send(response.body)
 })

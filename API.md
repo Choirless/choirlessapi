@@ -1,5 +1,11 @@
 # Choirless API
 
+## API Keys
+
+Each of the endpoints below require a valid API key to be passed as a query parameter like so `?apikey=<YOUR_API_KEY>`. 
+
+An API key can be generated at the `/keys` endpoint of the API server.
+
 ## User
 
 ### GET /user

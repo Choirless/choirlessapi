@@ -11,6 +11,14 @@ The following environment variables configure how the API accesses the database
 - `COUCH_URL` - the URL of the CouchDB/Cloudant service e.g. `http://admin:admin@localhost:5984`.
 - `COUCH_USERS_DATABASE` - the name of the users database, storing registered Choirless users.
 - `COUCH_CHOIRLESS_DATABASE` - the name of the main choirless database (stores choirs/members/songs/parts).
+- `COUCH_KEYS_DATABASE` - the name of the database for storing API access keys.
+
+### W3ID Environment Variables
+
+The key management page (`/keys`) is protected by W3ID, and is further protected by a whitelist of users. The following are the steps you'll to need to follow and the environment variables you'll need to protect the `/keys` route.
+
+Instructions for registering your app with W3ID can be found [here](https://github.com/seanmtracey/w3id-middleware/blob/master/SELF_SERVICE.md).
+Required environment variables can be found [here](https://github.com/seanmtracey/w3id-middleware#required-environment-variables).
 
 ## Setup
 

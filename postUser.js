@@ -5,6 +5,16 @@ const sha256 = require('./lib/sha256.js')
 let nano = null
 let db = null
 
+const userExists = async (email) => {
+  const query = {
+    selector: {
+      email: email
+    }
+  }
+  const result = await db.find(query)
+  return (result.docs && result.docs.length > 0)
+}
+
 // create/edit a user
 // Parameters:
 // - userId - the id of the user to edit (or blank to create new one)
@@ -28,6 +38,17 @@ const postUser = async (opts) => {
       debug('postUser fetch user', userId)
       doc = await db.get(userId)
       doc.name = opts.name ? opts.name : doc.name
+
+      // if the email address is being changed, make sure it's not already taken
+      if (opts.email && opts.email !== doc.email) {
+        if (await userExists(opts.email)) {
+          return {
+            body: { ok: false, message: 'duplicate user' },
+            statusCode: 409,
+            headers: { 'Content-Type': 'application/json' }
+          }
+        }
+      }
       doc.email = opts.email ? opts.email : doc.email
       if (opts.password) {
         doc.salt = kuuid.id()
@@ -52,13 +73,7 @@ const postUser = async (opts) => {
     }
 
     // first check that user with this email doesn't already exist
-    const query = {
-      selector: {
-        email: opts.email
-      }
-    }
-    const result = await db.find(query)
-    if (result.docs && result.docs.length > 0) {
+    if (await userExists(opts.email)) {
       return {
         body: { ok: false, message: 'duplicate user' },
         statusCode: 409,

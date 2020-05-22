@@ -55,6 +55,8 @@ paths:
           description: "Invalid input"
         "404":
           description: "User not found"
+        "409":
+          description: "Duplicate user"
     get:
       tags:
       - "user"

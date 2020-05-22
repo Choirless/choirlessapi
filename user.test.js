@@ -99,6 +99,26 @@ test('getUser - fetch user', async () => {
   expect(response.body.ok).toBe(true)
 })
 
+test('postUser - create user - duplicate check', async () => {
+  const obj = {
+    name: 'Mavis',
+    email: 'mavis@aol.com',
+    password: 'battenburg'
+  }
+  let response = await postUser(obj)
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+
+  const obj2 = {
+    name: 'Brenda',
+    email: 'mavis@aol.com',
+    password: 'garibaldi'
+  }
+  response = await postUser(obj2)
+  expect(response.statusCode).toBe(409)
+  expect(response.body.ok).toBe(false)
+})
+
 test('getUser - fetch user - invalid user', async () => {
   const response = await getUser({ userId: 'frank' })
   expect(response.statusCode).toBe(404)

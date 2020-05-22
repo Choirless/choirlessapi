@@ -42,6 +42,7 @@ const postUser = async (opts) => {
       }
     }
   } else {
+    // new user creation
     if (!opts.name || !opts.password || !opts.email) {
       return {
         body: { ok: false, message: 'missing mandatory parameters name/password/email' },
@@ -49,6 +50,23 @@ const postUser = async (opts) => {
         headers: { 'Content-Type': 'application/json' }
       }
     }
+
+    // first check that user with this email doesn't already exist
+    const query = {
+      selector: {
+        email: opts.email
+      }
+    }
+    const result = await db.find(query)
+    if (result.docs && result.docs.length > 0) {
+      return {
+        body: { ok: false, message: 'duplicate user' },
+        statusCode: 409,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    }
+
+    // create user
     const id = kuuid.id()
     const salt = kuuid.id()
     const now = new Date()

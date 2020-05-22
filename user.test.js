@@ -224,3 +224,9 @@ test('getUser - get profile - invalid user', async () => {
   expect(response.statusCode).toBe(404)
   expect(response.body.ok).toBe(false)
 })
+
+test('postUser - change email - duplicate user check', async () => {
+  const response = await postUser({ userId: rita, email: 'bob@aol.com' })
+  expect(response.statusCode).toBe(409)
+  expect(response.body.ok).toBe(false)
+})

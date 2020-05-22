@@ -47,6 +47,8 @@ Returns:
 }
 ```
 
+> Note: if an attempt is made to create/edit a user with an email that already exists in the database, this API will provide a `409` response.
+
 ### POST /user/login
 
 Log in a user with a supplied email and password. If the user exists and the password checks out, the user profile is returned.

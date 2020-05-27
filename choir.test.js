@@ -2,6 +2,7 @@ const COUCH_URL = 'http://admin:admin@localhost:5984'
 const ts = new Date().getTime()
 const DB1 = 'choirtest_users_' + ts
 const DB2 = 'choirtest_main_' + ts
+const DB3 = 'choirtest_queue_' + ts
 const Nano = require('nano')
 const nano = Nano(COUCH_URL)
 
@@ -9,6 +10,7 @@ const nano = Nano(COUCH_URL)
 process.env.COUCH_URL = COUCH_URL
 process.env.COUCH_USERS_DATABASE = DB1
 process.env.COUCH_CHOIRLESS_DATABASE = DB2
+process.env.COUCH_QUEUE_DATABASE = DB3
 const postUser = require('./postUser.js')
 const postChoir = require('./postChoir.js')
 const getChoir = require('./getChoir.js')
@@ -21,16 +23,21 @@ const postChoirSongPart = require('./postChoirSongPart.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
 const getUserChoirs = require('./getUserChoirs.js')
+const postQueueMixdown = require('./postQueueMixdown.js')
+const postQueueSongPart = require('./postQueueSongPart.js')
+const getQueue = require('./getQueue.js')
 
 // test users
 let rita, sue, bob
 let london, bristol, manchester
 let song1, song2
 let part1, part2, part3
+let q1, q2, q3, q4, q5
 
 beforeAll(async () => {
   await nano.db.create(DB1)
   await nano.db.create(DB2, { partitioned: true })
+  await nano.db.create(DB3)
   let obj = {
     name: 'Bob',
     email: 'bob@aol.com',
@@ -526,7 +533,143 @@ test('getUserChoirs - get choir memberships', async () => {
   expect(response.body.choirs.length).toBe(0)
 })
 
+test('postQueueSongPart.js - add queue item', async () => {
+  let response = await postQueueSongPart({ songId: song1, choirId: london, partId: part1 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  q1 = response.body.id
+
+  response = await postQueueSongPart({ songId: song1, choirId: london, partId: part2 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  q2 = response.body.id
+
+  response = await postQueueSongPart({ songId: song1, choirId: london, partId: part3 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  q3 = response.body.id
+})
+
+test('postQueueSongPart.js - missing parameters', async () => {
+  let response = await postQueueSongPart({ songId: song1, choirId: london })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+  response = await postQueueSongPart({ songId: song1, partId: part1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+  response = await postQueueSongPart({ choirId: london, partId: part1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+})
+
+test('postQueueSongPart.js - invalid part', async () => {
+  const response = await postQueueSongPart({ songId: song1, choirId: london, partId: 'invalid' })
+  expect(response.statusCode).toBe(404)
+  expect(response.body.ok).toBe(false)
+})
+
+test('getQueue.js - get queue items', async () => {
+  let response = await getQueue({ id: q1 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.queueItem).toBe('object')
+  expect(response.body.queueItem.songId).toBe(song1)
+  expect(response.body.queueItem.choirId).toBe(london)
+  expect(response.body.queueItem.partId).toBe(part1)
+
+  response = await getQueue({ id: q2 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.queueItem).toBe('object')
+  expect(response.body.queueItem.songId).toBe(song1)
+  expect(response.body.queueItem.choirId).toBe(london)
+  expect(response.body.queueItem.partId).toBe(part2)
+
+  response = await getQueue({ id: q3 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.queueItem).toBe('object')
+  expect(response.body.queueItem.songId).toBe(song1)
+  expect(response.body.queueItem.choirId).toBe(london)
+  expect(response.body.queueItem.partId).toBe(part3)
+})
+
+test('postQueueSongPart.js - update queue item', async () => {
+  let response = await postQueueSongPart({ id: q1, status: 'inprogress' })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  response = await getQueue({ id: q1 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.queueItem).toBe('object')
+  expect(response.body.queueItem.status).toBe('inprogress')
+})
+
+test('postQueueSongPart.js - update queue item - invalid id', async () => {
+  const response = await postQueueSongPart({ id: 'invalid', status: 'inprogress' })
+  expect(response.statusCode).toBe(404)
+  expect(response.body.ok).toBe(false)
+})
+
+test('postQueueMixdown.js - add queue item', async () => {
+  let response = await postQueueMixdown({ songId: song1, choirId: london })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  q4 = response.body.id
+
+  response = await postQueueMixdown({ songId: song2, choirId: london })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  q5 = response.body.id
+})
+
+test('postQueueMixdown.js - missing parameters', async () => {
+  let response = await postQueueMixdown({ songId: song1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+  response = await postQueueMixdown({ choirId: london })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+  response = await postQueueMixdown({ })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+})
+
+test('postQueueMixdown.js - invalid song', async () => {
+  const response = await postQueueMixdown({ songId: 'invalid', choirId: london })
+  expect(response.statusCode).toBe(404)
+  expect(response.body.ok).toBe(false)
+})
+
+test('getQueue.js - get mixdown queue items', async () => {
+  let response = await getQueue({ id: q4 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.queueItem).toBe('object')
+  expect(response.body.queueItem.songId).toBe(song1)
+  expect(response.body.queueItem.choirId).toBe(london)
+
+  response = await getQueue({ id: q5 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.queueItem).toBe('object')
+  expect(response.body.queueItem.songId).toBe(song2)
+  expect(response.body.queueItem.choirId).toBe(london)
+})
+
+test('postQueueSongPart.js - update mixdown queue item', async () => {
+  let response = await postQueueMixdown({ id: q4, status: 'inprogress' })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  response = await getQueue({ id: q4 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.queueItem).toBe('object')
+  expect(response.body.queueItem.status).toBe('inprogress')
+})
+
 afterAll(async () => {
   await nano.db.destroy(DB1)
   await nano.db.destroy(DB2)
+  await nano.db.destroy(DB3)
 })

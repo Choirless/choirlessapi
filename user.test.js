@@ -8,7 +8,7 @@ const nano = Nano(COUCH_URL)
 // the code we're testing
 process.env.COUCH_URL = COUCH_URL
 process.env.COUCH_USERS_DATABASE = DB1
-process.env.COUCH_CHOIRLESS_DATABASE = DB1
+process.env.COUCH_CHOIRLESS_DATABASE = DB2
 const postUser = require('./postUser.js')
 const postUserLogin = require('./postUserLogin.js')
 const getUser = require('./getUser.js')

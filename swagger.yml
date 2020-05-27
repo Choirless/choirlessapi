@@ -15,10 +15,97 @@ tags:
 - name: "choir"
   description: "Choir-related actions"
 - name: "user"
-  description: "User-relqted actions"
+  description: "User-related actions"
+- name: "queue"
+  description: "Queue-related actions"
 schemes:
 - "http"
 paths:
+  /queue:
+    get:
+      tags:
+      - "queue"
+      summary: "Get a queue item "
+      description: "Fetch a queue item  by its id"
+      operationId: "getQueue"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: query
+        type: string
+        name: id
+        required: true
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Not found"
+  /queue/songpart:
+    post:
+      tags:
+      - "queue"
+      summary: "Add/Edit a queue item for a song part"
+      description: ""
+      operationId: "postQueueSongPart"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Queue object to be added"
+        required: true
+        schema:
+          type: object
+          properties:
+            choirId:
+              type: string
+            songId:
+              type: string
+            partId:
+              type: string
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Not found"
+  /queue/mixdown:
+    post:
+      tags:
+      - "queue"
+      summary: "Add/Edit a queue item for a mixdown"
+      description: ""
+      operationId: "postQueueMixdown"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Queue object to be added"
+        required: true
+        schema:
+          type: object
+          properties:
+            choirId:
+              type: string
+            songId:
+              type: string
+      responses:
+        "200":
+          description: "successful operation"
+        "400":
+          description: "Invalid input"
+        "404":
+          description: "Not found"
   /user:
     post:
       tags:

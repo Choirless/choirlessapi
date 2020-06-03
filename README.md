@@ -40,6 +40,8 @@ Tests are configured to run automatically in Travis.
 The API can be run locally with:
 
 ```sh
+# disable authentication and whitelist middleware with LOCAL_MODE=true
+export LOCAL_MODE="true"
 npm run server
 ```
 

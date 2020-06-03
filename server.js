@@ -4,9 +4,13 @@ const bodyParser = require('body-parser')
 const port = process.env.PORT || 3000
 const app = express()
 const morgan = require('morgan')
-const w3id = require('w3id-middleware')
-const whitelist = require('./whitelist.js')
-const keyProtect = require('./checkAPIKey.js')
+const mockMiddleware = function (req, res, next) {
+  next()
+}
+const localMode = (process.env.LOCAL_MODE === 'true')
+const w3id = localMode ? mockMiddleware : require('w3id-middleware')
+const whitelist = localMode ? mockMiddleware : require('./whitelist.js')
+const keyProtect = localMode ? mockMiddleware : require('./checkAPIKey.js')
 
 // parsing application/json
 app.use(bodyParser.json())

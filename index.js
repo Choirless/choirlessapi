@@ -1,7 +1,7 @@
 const wrapper = (fn, arg) => {
   return new Promise((resolve, reject) => {
     fn(arg).then((response) => {
-      if (response.ok) {
+      if (response.body.ok) {
         resolve(response.body)
       } else {
         reject(response.body)
@@ -24,6 +24,9 @@ const postChoirSong = require('./postChoirSong.js')
 const postChoirSongPart = require('./postChoirSongPart.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
+const postQueueMixdown = require('./postQueueMixdown.js')
+const postQueueSongPart = require('./postQueueSongPart.js')
+const getQueue = require('./getQueue.js')
 
 module.exports = {
   getUser: arg => wrapper(getUser, arg),
@@ -39,5 +42,8 @@ module.exports = {
   postChoirSong: arg => wrapper(postChoirSong, arg),
   postChoirSongPart: arg => wrapper(postChoirSongPart, arg),
   getChoirSongPart: arg => wrapper(getChoirSongPart, arg),
-  getChoirSongParts: arg => wrapper(getChoirSongParts, arg)
+  getChoirSongParts: arg => wrapper(getChoirSongParts, arg),
+  postQueueMixdown: arg => wrapper(postQueueMixdown, arg),
+  postQueueSongPart: arg => wrapper(postQueueSongPart, arg),
+  getQueue: arg => wrapper(getQueue, arg)
 }

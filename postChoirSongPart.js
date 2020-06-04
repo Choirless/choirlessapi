@@ -55,6 +55,7 @@ const postChoirSongPart = async (opts) => {
     doc = {
       _id: opts.choirId + ':song:' + opts.songId + ':part:' + partId,
       type: 'songpart',
+      partId: partId,
       songId: opts.songId,
       choirId: opts.choirId,
       userId: opts.userId,

@@ -295,12 +295,11 @@ test('getChoirMembers - check membership again', async () => {
   expect(response.body.members.length).toBe(2)
 })
 
-test('postChoir - invalid paramters', async () => {
+test('postChoirSong - invalid paramters', async () => {
   let obj = {
     userId: rita,
     name: 'Waterloo Sunset',
-    description: 'by The Kinks',
-    partNames: ['tenor', 'alto', 'soprano']
+    description: 'by The Kinks'
   }
   let response = await postChoirSong(obj)
   expect(response.statusCode).toBe(400)
@@ -309,8 +308,7 @@ test('postChoir - invalid paramters', async () => {
   obj = {
     choirId: london,
     name: 'Waterloo Sunset',
-    description: 'by The Kinks',
-    partNames: ['tenor', 'alto', 'soprano']
+    description: 'by The Kinks'
   }
   response = await postChoirSong(obj)
   expect(response.statusCode).toBe(400)
@@ -319,8 +317,7 @@ test('postChoir - invalid paramters', async () => {
   obj = {
     userId: rita,
     choirId: london,
-    description: 'by The Kinks',
-    partNames: ['tenor', 'alto', 'soprano']
+    description: 'by The Kinks'
   }
   response = await postChoirSong(obj)
   expect(response.statusCode).toBe(400)
@@ -332,8 +329,7 @@ test('postChoirSong - create songs', async () => {
     choirId: london,
     userId: rita,
     name: 'Waterloo Sunset',
-    description: 'by The Kinks',
-    partNames: ['tenor', 'alto', 'soprano']
+    description: 'by The Kinks'
   }
   let response = await postChoirSong(obj)
   expect(response.statusCode).toBe(200)
@@ -344,8 +340,7 @@ test('postChoirSong - create songs', async () => {
     choirId: london,
     userId: rita,
     name: 'Love Me Do',
-    description: 'by The Beatles',
-    partNames: ['baritone', 'alto', 'soprano']
+    description: 'by The Beatles'
   }
   response = await postChoirSong(obj)
   expect(response.statusCode).toBe(200)
@@ -370,8 +365,7 @@ test('postChoirSong - edit song', async () => {
     choirId: london,
     songId: song1,
     name: 'Waterloo Sunset!',
-    description: 'by The Kinks!',
-    partNames: ['bass', 'tenor', 'alto', 'soprano']
+    description: 'by The Kinks!'
   }
   let response = await postChoirSong(obj)
   expect(response.statusCode).toBe(200)
@@ -383,7 +377,7 @@ test('postChoirSong - edit song', async () => {
   expect(response.body.ok).toBe(true)
   expect(response.body.song.name).toBe(obj.name)
   expect(response.body.song.description).toBe(obj.description)
-  expect(response.body.song.partNames).toStrictEqual(obj.partNames)
+  expect(response.body.song.partNames).toStrictEqual([])
 })
 
 test('getChoirSongs - edit song', async () => {

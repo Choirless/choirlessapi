@@ -173,7 +173,6 @@ Parameters:
 - `userId` - the id of the user adding the song (required)
 - `name` - the name of the song (required)
 - `description` - a description of a song
-- `partNames` - an array of parts e.g. `['alto','tenor','soprano']`
 
 Returns
 

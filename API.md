@@ -230,6 +230,15 @@ Parameters:
 - `partNameId` - the is of the song partName - if matches existing partNameId, that object will be updated, otherwise - new array element will be added -  (required)
 - `name` - the name of the part (required)
 
+### DELETE /choir/songPartName
+
+Deletes a partName from a song document
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+- `partNameId` - the id of the song partName (required)
 
 ### POST /choir/songpart
 

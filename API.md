@@ -249,6 +249,7 @@ Parameters:
 - `choirId` - the id of the choir (required)
 - `songId` - the id of the song (required)
 - `partId` - the id of the part (required for updates, if omitted a new song part is created)
+- `partNameId` - the id of the part name
 - `partName` - name of the part e.g. drums, alto
 - `partType` - one of `backing`/`reference`/`rendition`
 - `userId` - the id of the user (required for new parts)

@@ -293,6 +293,7 @@ Parameters:
 
 - `choirId` - the id of the choir (required)
 - `songId` - the id of the song (required)
+- `partNameId` - if supplied, only parts with matching `partNameId`s will be returned
 
 Returns
 

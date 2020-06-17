@@ -633,6 +633,13 @@ test('getChoirSongParts - get all parts', async () => {
   expect(response.body.parts.length).toBe(0)
 })
 
+test('getChoirSongParts - get parts matching partNameId', async () => {
+  const response = await getChoirSongParts({ songId: song1, choirId: london, partNameId: 'abc123' })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.parts.length).toBe(1)
+})
+
 test('getUserChoirs - get choir memberships', async () => {
   const response = await getUserChoirs({ userId: rita })
   expect(response.statusCode).toBe(200)

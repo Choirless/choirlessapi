@@ -190,6 +190,7 @@ memberType:
     {
       partNameId: "abc",
       name: "baritone",
+    },
     {
       partNameId: "def",
       name: "tenor"

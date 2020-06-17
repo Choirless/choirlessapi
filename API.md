@@ -218,6 +218,18 @@ Returns
 }
 ```
 
+### POST /choir/songPartName
+
+Add a song partName to the `partNames` array within a song document.
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+- `partId` - the id of the part (required)
+- `partNameId` - the is of the song partName - if matches existing partNameId, that object will be updated, otherwise - new array element will be added -  (required)
+- `name` - the name of the part (required)
+
 
 ### POST /choir/songpart
 

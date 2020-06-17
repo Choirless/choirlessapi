@@ -173,7 +173,6 @@ Parameters:
 - `userId` - the id of the user adding the song (required)
 - `name` - the name of the song (required)
 - `description` - a description of a song
-- `partNames` - an array of parts e.g. `['alto','tenor','soprano']`
 
 Returns
 
@@ -219,6 +218,27 @@ Returns
 }
 ```
 
+### POST /choir/songPartName
+
+Add a song partName to the `partNames` array within a song document.
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+- `partId` - the id of the part (required)
+- `partNameId` - the is of the song partName - if matches existing partNameId, that object will be updated, otherwise - new array element will be added -  (required)
+- `name` - the name of the part (required)
+
+### DELETE /choir/songPartName
+
+Deletes a partName from a song document
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+- `partNameId` - the id of the song partName (required)
 
 ### POST /choir/songpart
 
@@ -229,6 +249,7 @@ Parameters:
 - `choirId` - the id of the choir (required)
 - `songId` - the id of the song (required)
 - `partId` - the id of the part (required for updates, if omitted a new song part is created)
+- `partNameId` - the id of the part name
 - `partName` - name of the part e.g. drums, alto
 - `partType` - one of `backing`/`reference`/`rendition`
 - `userId` - the id of the user (required for new parts)
@@ -272,6 +293,7 @@ Parameters:
 
 - `choirId` - the id of the choir (required)
 - `songId` - the id of the song (required)
+- `partNameId` - if supplied, only parts with matching `partNameId`s will be returned
 
 Returns
 

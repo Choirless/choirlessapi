@@ -186,7 +186,16 @@ memberType:
   songId: "<songid>",
   userId: "<userid>",
   createdOn: "2020-05-01",
-  partNames: ["baritone", "tenor", "alto", "soprano"]
+  partNames: [
+    {
+      partNameId: "abc",
+      name: "baritone",
+    },
+    {
+      partNameId: "def",
+      name: "tenor"
+    }
+  ]
 }
 ```
 

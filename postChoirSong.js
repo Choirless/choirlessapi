@@ -32,7 +32,6 @@ const postChoirSong = async (opts) => {
       doc = await db.get(opts.choirId + ':song:' + opts.songId)
       doc.name = opts.name ? opts.name : doc.name
       doc.description = opts.description ? opts.description : doc.description
-      doc.partNames = Array.isArray(opts.partNames) ? opts.partNames : doc.partNames
       songId = opts.songId
     } catch (e) {
       return {
@@ -58,7 +57,7 @@ const postChoirSong = async (opts) => {
       userId: opts.userId,
       name: opts.name,
       description: opts.description || '',
-      partNames: opts.partNames || [],
+      partNames: [],
       createdOn: now.toISOString()
     }
   }

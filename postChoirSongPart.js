@@ -32,7 +32,6 @@ const postChoirSongPart = async (opts) => {
       const id = opts.choirId + ':song:' + opts.songId + ':part:' + opts.partId
       debug('postChoirSongPart fetch partId', id)
       doc = await db.get(id)
-      doc.partName = opts.partName ? opts.partName : doc.partName
       doc.partType = opts.partType ? opts.partType : doc.partType
       doc.offset = typeof opts.offset === 'number' ? opts.offset : doc.offset
       partId = opts.partId
@@ -61,6 +60,7 @@ const postChoirSongPart = async (opts) => {
       userId: opts.userId,
       userName: opts.userName,
       createdOn: now.toISOString(),
+      partNameId: opts.partNameId || '',
       partName: opts.partName || '',
       partType: opts.partType || 'backing',
       offset: opts.offset || 0

@@ -34,6 +34,9 @@ const getChoirSongParts = async (opts) => {
         songId: opts.songId
       }
     }
+    if (opts.partNameId) {
+      query.selector.partNameId = opts.partNameId
+    }
     const results = await db.partitionedFind(opts.choirId, query)
     body = {
       ok: true,

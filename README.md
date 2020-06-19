@@ -265,3 +265,17 @@ or when the user wishes to render a song, an item is added to a queue so that
   createdOn: "2020-05-01"
 }
 ```
+
+### Invitation
+
+This allows a user to extend an invitation to new user to join the choir:
+
+```js
+{
+  
+  creator: '<id of user who created the invite>',
+  invitee: '<email of invited user>',
+  choirId: '<id of choir>',
+  expires: <expiry timestamp of invite>
+}
+```

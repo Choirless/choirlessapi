@@ -29,6 +29,8 @@ const getChoirSongParts = require('./getChoirSongParts.js')
 const postQueueMixdown = require('./postQueueMixdown.js')
 const postQueueSongPart = require('./postQueueSongPart.js')
 const getQueue = require('./getQueue.js')
+const postInvitation = require('./postInvitation.js')
+const getInvitation = require('./getInvitation.js')
 
 module.exports = {
   getUser: arg => wrapper(getUser, arg),
@@ -49,5 +51,7 @@ module.exports = {
   getChoirSongParts: arg => wrapper(getChoirSongParts, arg),
   postQueueMixdown: arg => wrapper(postQueueMixdown, arg),
   postQueueSongPart: arg => wrapper(postQueueSongPart, arg),
-  getQueue: arg => wrapper(getQueue, arg)
+  getQueue: arg => wrapper(getQueue, arg),
+  postInvitation: arg => wrapper(postInvitation, arg),
+  getInvitation: arg => wrapper(getInvitation, arg)
 }

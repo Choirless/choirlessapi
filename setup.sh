@@ -22,3 +22,6 @@ curl -X POST -H "${CTYPE}" -d'{"index":{"fields": ["userId","type"]},"name":"byU
 curl -X PUT "${COUCH_URL}/${COUCH_QUEUE_DATABASE}"
 # create a secondary indexes
 # curl -X POST -H "${CTYPE}" -d'{"index":{"fields": ["type","status"]},"name":"byStatus"}' "${COUCH_URL}/${COUCH_QUEUE_DATABASE}/_index"
+
+# create invitation database
+curl -X PUT "${COUCH_URL}/${COUCH_INVITATION_DATABASE}"

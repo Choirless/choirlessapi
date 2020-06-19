@@ -38,6 +38,8 @@ const getChoirSongParts = require('./getChoirSongParts.js')
 const postQueueMixdown = require('./postQueueMixdown.js')
 const postQueueSongPart = require('./postQueueSongPart.js')
 const getQueue = require('./getQueue.js')
+const postInvitation = require('./postInvitation.js')
+const getInvitation = require('./getInvitation.js')
 
 // Health endpoint
 app.get('/__gtg', async (req, res) => {
@@ -141,6 +143,16 @@ app.post('/queue/mixdown', [keyProtect], async (req, res) => {
 
 app.get('/queue', [keyProtect], async (req, res) => {
   const response = await getQueue(req.query)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.post('/invitation', [keyProtect], async (req, res) => {
+  const response = await postInvitation(req.body)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.get('/invitation', [keyProtect], async (req, res) => {
+  const response = await getInvitation(req.query)
   res.status(response.statusCode).send(response.body)
 })
 

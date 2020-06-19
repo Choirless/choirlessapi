@@ -226,7 +226,7 @@ Parameters:
 
 - `choirId` - the id of the choir (required)
 - `songId` - the id of the song (required)
-- `partNameId` - the id of the song partName - if matches existing partNameId, that object will be updated, otherwise - new array element will be added -  (required)
+- `partNameId` - the id of the song partName - if matches existing partNameId, that object will be updated, otherwise - new array element will be added and an ID will be generated
 - `name` - the name of the part (required)
 
 ### DELETE /choir/songPartName

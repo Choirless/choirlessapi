@@ -1,5 +1,6 @@
 const Nano = require('nano')
 const debug = require('debug')('choirless')
+const kuuid = require('kuuid')
 let nano = null
 let db = null
 const DB_NAME = process.env.COUCH_CHOIRLESS_DATABASE
@@ -8,7 +9,7 @@ const DB_NAME = process.env.COUCH_CHOIRLESS_DATABASE
 // Parameters:
 // - `choirId` - the id of the choir (required)
 // - `songId` - the id of the song (required)
-// - `partNameId` - the is of the song partName - if matches existing partNameId, that object will be updated, otherwise - new array element will be added -  (required)
+// - `partNameId` - the id of the song partName - if matches existing partNameId, that object will be updated, otherwise - new array element will be added
 // - `name` - the name of the part (required)
 const postChoirSongPartName = async (opts) => {
   // connect to db - reuse connection if present
@@ -18,7 +19,7 @@ const postChoirSongPartName = async (opts) => {
   }
 
   // check for mandatory parameters
-  if (!opts.choirId || !opts.songId || !opts.partNameId || !opts.name) {
+  if (!opts.choirId || !opts.songId || !opts.name) {
     return {
       body: { ok: false, message: 'missing mandatory parameters' },
       statusCode: 400,
@@ -41,11 +42,17 @@ const postChoirSongPartName = async (opts) => {
 
   // see if partNameId is present in partNames
   let index = doc.partNames.length // add to end of array
-  for (var i = 0; i < doc.partNames.length; i++) {
-    if (doc.partNames[i].partNameId === opts.partNameId) {
-      index = i
+
+  if (!opts.partNameId) {
+    opts.partNameId = kuuid.id()
+  } else {
+    for (var i = 0; i < doc.partNames.length; i++) {
+      if (doc.partNames[i].partNameId === opts.partNameId) {
+        index = i
+      }
     }
   }
+
   doc.partNames[index] = {
     partNameId: opts.partNameId,
     name: opts.name

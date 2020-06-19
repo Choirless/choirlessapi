@@ -372,3 +372,42 @@ Returns
   queueItem: { ... }
 }
 ```
+
+## Invitations
+
+### POST /invitation
+
+Parameters:
+
+- `creator` - the id of the user who generated the invitation.
+- `invitee` - the email of the person being invited
+- `choirId` - the choir the invitee is being invited to join
+
+Returns:
+
+```js
+{
+  ok: true,
+  id: "<INVITEID">
+}
+```
+
+### GET /invitation
+
+Parameters:
+
+- `inviteId` - the id of the invitation
+
+```js
+{
+   ok: true,
+   invitation: {
+     ... invitation object ...
+   }
+}
+```
+
+Error responses
+
+- `404` - invitation not found
+- `498` - invitation exipred

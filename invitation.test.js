@@ -100,7 +100,6 @@ test('getInvitation - check', async () => {
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(typeof response.body.invitation).toBe('object')
-  console.log(response.body)
 })
 
 test('getInvitation - invalid', async () => {

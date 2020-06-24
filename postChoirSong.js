@@ -49,6 +49,10 @@ const postChoirSong = async (opts) => {
       }
     }
     songId = kuuid.id()
+    let partNames = []
+    if (opts.partNames) {
+      partNames = opts.partNames.map((p) => { return { partNameId: kuuid.id(), name: p } })
+    }
     doc = {
       _id: opts.choirId + ':song:' + songId,
       type: 'song',
@@ -57,7 +61,7 @@ const postChoirSong = async (opts) => {
       userId: opts.userId,
       name: opts.name,
       description: opts.description || '',
-      partNames: [],
+      partNames: partNames,
       createdOn: now.toISOString()
     }
   }
@@ -68,7 +72,9 @@ const postChoirSong = async (opts) => {
   try {
     debug('postChoirSong write song', doc)
     await db.insert(doc)
-    body = { ok: true, songId: songId }
+    delete doc._rev
+    delete doc._id
+    body = { ok: true, songId: songId, song: doc }
   } catch (e) {
     body = { ok: false }
     statusCode = 404

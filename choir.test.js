@@ -796,6 +796,31 @@ test('postQueueSongPart.js - update mixdown queue item', async () => {
   expect(response.body.queueItem.status).toBe('inprogress')
 })
 
+test('postChoirSong - create song with parts', async () => {
+  const obj = {
+    choirId: london,
+    userId: rita,
+    name: 'One Love',
+    description: 'by Bob Marley',
+    partNames: ['bass', 'guitar', 'organ', 'vocal', 'backing vocal']
+  }
+  let response = await postChoirSong(obj)
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  const songId = response.body.songId
+  expect(typeof response.body.song).toBe('object')
+  expect(response.body.song.partNames.length).toBe(5)
+  expect(typeof response.body.song.partNames[0]).toBe('object')
+
+  response = await getChoirSong({ choirId: london, songId: songId })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.song.name).toBe('One Love')
+  expect(typeof response.body.song).toBe('object')
+  expect(response.body.song.partNames.length).toBe(5)
+  expect(typeof response.body.song.partNames[0]).toBe('object')
+})
+
 afterAll(async () => {
   await nano.db.destroy(DB1)
   await nano.db.destroy(DB2)

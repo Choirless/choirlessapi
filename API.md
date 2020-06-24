@@ -173,6 +173,7 @@ Parameters:
 - `userId` - the id of the user adding the song (required)
 - `name` - the name of the song (required)
 - `description` - a description of a song
+- `partNames` - an array of song partNames (add only) - if supplied during creation of a new song, the `partNames` array is converted into `partNames: [ { partNameId: '<uuid>', name: '<name>'}]` format. Editing of this array is achieved using `POST /choir/songPartName` & `DELETE /choir/songPartName`.
 
 Returns
 

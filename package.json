@@ -16,7 +16,7 @@
     "Cloudant"
   ],
   "author": "Glynn Bird <glynn.bird@gmail.com>",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
     "debug": "^4.1.1",

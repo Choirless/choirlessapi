@@ -32,12 +32,24 @@ const postUser = async (opts) => {
   const userId = opts.userId
   let doc = {}
 
+  // check userType is valid
+  if (opts.userType && !['regular', 'admin'].includes(opts.userType)) {
+    return {
+      body: { ok: false, message: 'invalid userType' },
+      statusCode: 400,
+      headers: { 'Content-Type': 'application/json' }
+    }
+  }
+
   // is this a request to edit an existing user
   if (userId) {
     try {
       debug('postUser fetch user', userId)
       doc = await db.get(userId)
+      // infer userType if missing
+      doc.userType = doc.userType ? doc.userType : 'regular'
       doc.name = opts.name ? opts.name : doc.name
+      doc.userType = opts.userType ? opts.userType : doc.userType
 
       // if the email address is being changed, make sure it's not already taken
       if (opts.email && opts.email !== doc.email) {
@@ -89,6 +101,7 @@ const postUser = async (opts) => {
       _id: id,
       type: 'user',
       userId: id,
+      userType: opts.userType ? opts.userType : 'regular',
       name: opts.name,
       email: opts.email,
       salt: salt,

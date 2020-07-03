@@ -40,6 +40,9 @@ const postUserLogin = async (opts) => {
       delete body.user.salt
       delete body.user._id
       delete body.user._rev
+
+      // infer userType if missing
+      body.user.userType = body.user.userType ? body.user.userType : 'regular'
     } else {
       body = { ok: false }
       statusCode = 403

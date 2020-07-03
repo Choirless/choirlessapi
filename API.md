@@ -37,6 +37,7 @@ Parameters:
 - `password` - password  (required for new user).
 - `email` - email address of user (required for new user).
 - `verified` - whether the user is verified or not.
+- `userType` - the userType (regular/admin)
 
 Returns:
 

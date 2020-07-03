@@ -125,6 +125,7 @@ The following objects are stored:
   _id: "<userid>",
   type: "user",
   userId: "<userid>",
+  userType: "regular",
   name: "Glynn Bird",
   email: "bob@aol.com",
   createdOn: "2018-01-26",
@@ -133,6 +134,9 @@ The following objects are stored:
   salt: "<some random data>"
 }
 ```
+
+- `userType` can be `regular` or `admin`.
+
 
 ### Choirs
 

@@ -30,26 +30,6 @@ test('postInvitation - missing parameters #1', async () => {
   expect(response.body.ok).toBe(false)
 })
 
-test('postInvitation - missing parameters #2', async () => {
-  const obj = {
-    creator: 'abc123',
-    choirId: 'xyz123'
-  }
-  const response = await postInvitation(obj)
-  expect(response.statusCode).toBe(400)
-  expect(response.body.ok).toBe(false)
-})
-
-test('postInvitation - missing parameters #3', async () => {
-  const obj = {
-    creator: 'abc123',
-    invitee: 'bob@aol.com'
-  }
-  const response = await postInvitation(obj)
-  expect(response.statusCode).toBe(400)
-  expect(response.body.ok).toBe(false)
-})
-
 test('postInvitation - create invitations', async () => {
   let obj = {
     creator: 'abc123',
@@ -64,7 +44,6 @@ test('postInvitation - create invitations', async () => {
 
   obj = {
     creator: 'abc123',
-    invitee: 'rita@aol.com',
     choirId: 'xyz123'
   }
   response = await postInvitation(obj)
@@ -75,8 +54,7 @@ test('postInvitation - create invitations', async () => {
 
   obj = {
     creator: 'abc123',
-    invitee: 'sue@aol.com',
-    choirId: 'xyz123'
+    invitee: 'sue@aol.com'
   }
   response = await postInvitation(obj)
   expect(response.statusCode).toBe(200)

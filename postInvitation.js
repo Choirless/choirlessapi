@@ -16,7 +16,7 @@ const postInvitation = async (opts) => {
   }
 
   // is this a request to edit an existing queue item
-  if (!opts.creator || !opts.invitee || !opts.choirId) {
+  if (!opts.creator) {
     return {
       body: { ok: false, message: 'missing mandatory parameters' },
       statusCode: 400,

@@ -40,6 +40,8 @@ const getChoirMembers = async (opts) => {
       members: response.docs.map((m) => {
         delete m._id
         delete m._rev
+        // infer userType if missing
+        m.userType = m.userType ? m.userType : 'regular'
         return m
       })
     }

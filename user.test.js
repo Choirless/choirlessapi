@@ -56,6 +56,18 @@ test('postUserLogin - missing parameters #3', async () => {
   expect(response.body.ok).toBe(false)
 })
 
+test('postUserLogin - invalid userType', async () => {
+  const obj = {
+    name: 'Frank',
+    email: 'frank@aol.com',
+    password: 'pies',
+    userType: 'superuser'
+  }
+  const response = await postUser(obj)
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+})
+
 test('postUser - create user', async () => {
   let obj = {
     name: 'Bob',
@@ -80,7 +92,8 @@ test('postUser - create user', async () => {
   obj = {
     name: 'Rita',
     email: 'rita@aol.com',
-    password: 'rabbits'
+    password: 'rabbits',
+    userType: 'admin'
   }
   response = await postUser(obj)
   expect(response.statusCode).toBe(200)
@@ -91,12 +104,15 @@ test('getUser - fetch user', async () => {
   let response = await getUser({ userId: bob })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
+  expect(response.body.user.userType).toBe('regular')
   response = await getUser({ userId: sue })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
+  expect(response.body.user.userType).toBe('regular')
   response = await getUser({ userId: rita })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
+  expect(response.body.user.userType).toBe('admin')
 })
 
 test('postUser - create user - duplicate check', async () => {
@@ -173,6 +189,12 @@ test('postUser - change password', async () => {
   expect(response.body.ok).toBe(true)
 })
 
+test('postUser - change userType', async () => {
+  const response = await postUser({ userId: rita, userType: 'regular' })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+})
+
 test('postUserLogin - login user after changes', async () => {
   const response = await postUserLogin({ email: 'rita2@aol.com', password: 'rabbits2' })
   expect(response.statusCode).toBe(200)
@@ -180,6 +202,7 @@ test('postUserLogin - login user after changes', async () => {
   expect(response.body.user.type).toBe('user')
   expect(response.body.user.name).toBe('Rita Smith')
   expect(response.body.user.email).toBe('rita2@aol.com')
+  expect(response.body.user.userType).toBe('regular')
   expect(response.body.user.password).toBe(undefined)
   expect(response.body.user.salt).toBe(undefined)
   expect(response.body.user.verified).toBe(false)
@@ -198,6 +221,7 @@ test('postUserLogin - login user after verification', async () => {
   expect(response.body.user.type).toBe('user')
   expect(response.body.user.name).toBe('Rita Smith')
   expect(response.body.user.email).toBe('rita2@aol.com')
+  expect(response.body.user.userType).toBe('regular')
   expect(response.body.user.password).toBe(undefined)
   expect(response.body.user.salt).toBe(undefined)
   expect(response.body.user.verified).toBe(true)
@@ -212,6 +236,7 @@ test('getUser - get profile', async () => {
   expect(response.body.user.type).toBe('user')
   expect(response.body.user.name).toBe('Rita Smith')
   expect(response.body.user.email).toBe('rita2@aol.com')
+  expect(response.body.user.userType).toBe('regular')
   expect(response.body.user.password).toBe(undefined)
   expect(response.body.user.salt).toBe(undefined)
   expect(response.body.user.verified).toBe(true)

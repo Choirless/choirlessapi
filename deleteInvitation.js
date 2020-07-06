@@ -3,9 +3,9 @@ const debug = require('debug')('choirless')
 let nano = null
 let db = null
 
-// get an invitation
+// delete an invitation
 // inviteId - the id of the invitation.
-const getInvitation = async (opts) => {
+const deleteInvitation = async (opts) => {
   // connect to db - reuse connection if present
   if (!db) {
     nano = Nano(process.env.COUCH_URL)
@@ -23,22 +23,13 @@ const getInvitation = async (opts) => {
 
   // get invitation doc
   let statusCode = 200
-  let body = {}
+  let body = { ok: true }
   try {
-    debug('getInvitation', opts.inviteId)
+    debug('deleteInvitation', opts.inviteId)
     const doc = await db.get(opts.inviteId)
-    const now = Number(Date.now())
-    if (now > doc.expires) {
-      statusCode = 498
-      body = { ok: false }
-    } else {
-      delete doc._rev
-      doc.id = doc._id
-      delete doc._id
-      body = { ok: true, invitation: doc }
-    }
+    await db.destroy(opts.inviteId, doc._rev)
   } catch (e) {
-    body = { ok: false, err: 'Failed to fetch invitation' }
+    body = { ok: false, err: 'Failed to delete invitation' }
     statusCode = 404
   }
 
@@ -50,4 +41,4 @@ const getInvitation = async (opts) => {
   }
 }
 
-module.exports = getInvitation
+module.exports = deleteInvitation

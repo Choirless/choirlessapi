@@ -31,6 +31,8 @@ const postQueueSongPart = require('./postQueueSongPart.js')
 const getQueue = require('./getQueue.js')
 const postInvitation = require('./postInvitation.js')
 const getInvitation = require('./getInvitation.js')
+const getInvitationList = require('./getInvitationList.js')
+const deleteInvitation = require('./deleteInvitation.js')
 
 module.exports = {
   getUser: arg => wrapper(getUser, arg),
@@ -53,5 +55,7 @@ module.exports = {
   postQueueSongPart: arg => wrapper(postQueueSongPart, arg),
   getQueue: arg => wrapper(getQueue, arg),
   postInvitation: arg => wrapper(postInvitation, arg),
-  getInvitation: arg => wrapper(getInvitation, arg)
+  getInvitation: arg => wrapper(getInvitation, arg),
+  getInvitationList: arg => wrapper(getInvitationList, arg),
+  deleteInvitation: arg => wrapper(deleteInvitation, arg)
 }

@@ -40,6 +40,7 @@ const postQueueSongPart = require('./postQueueSongPart.js')
 const getQueue = require('./getQueue.js')
 const postInvitation = require('./postInvitation.js')
 const getInvitation = require('./getInvitation.js')
+const getInvitationList = require('./getInvitationList.js')
 const deleteInvitation = require('./deleteInvitation.js')
 
 // Health endpoint
@@ -149,6 +150,11 @@ app.get('/queue', [keyProtect], async (req, res) => {
 
 app.post('/invitation', [keyProtect], async (req, res) => {
   const response = await postInvitation(req.body)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.get('/invitation/list', [keyProtect], async (req, res) => {
+  const response = await getInvitationList()
   res.status(response.statusCode).send(response.body)
 })
 

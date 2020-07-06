@@ -9,6 +9,7 @@ process.env.COUCH_URL = COUCH_URL
 process.env.COUCH_INVITATION_DATABASE = DB1
 const postInvitation = require('./postInvitation.js')
 const getInvitation = require('./getInvitation.js')
+const getInvitationList = require('./getInvitationList.js')
 const deleteInvitation = require('./deleteInvitation.js')
 
 let id1, id2, id3
@@ -107,4 +108,12 @@ test('deleteInvitation - missing id', async () => {
   const response = await getInvitation({ })
   expect(response.statusCode).toBe(400)
   expect(response.body.ok).toBe(false)
+})
+
+test('getInvitationList - check', async () => {
+  const response = await getInvitationList()
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.invitations.length).toBe(2)
+  expect(typeof response.body.invitations[0]).toBe('object')
 })

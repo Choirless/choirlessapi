@@ -25,3 +25,4 @@ curl -X PUT "${COUCH_URL}/${COUCH_QUEUE_DATABASE}"
 
 # create invitation database
 curl -X PUT "${COUCH_URL}/${COUCH_INVITATION_DATABASE}"
+curl -X POST -H "${CTYPE}" -d'{"index":{"fields": ["expires"]},"name":"byExpiration","partitioned":false}' "${COUCH_URL}/${COUCH_INVITATION_DATABASE}/_index"

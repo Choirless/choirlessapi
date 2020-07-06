@@ -399,6 +399,8 @@ Parameters:
 
 - `inviteId` - the id of the invitation
 
+Returns:
+
 ```js
 {
    ok: true,
@@ -412,3 +414,35 @@ Error responses
 
 - `404` - invitation not found
 - `498` - invitation exipred
+
+### GET /invitation/list
+
+Parameters: none
+
+Returns:
+
+```js
+{
+   ok: true,
+   invitations: [{..}, {..}]
+}
+```
+
+### DELETE /invitation
+
+Parameters: 
+
+- `inviteId` - the id of the invitation
+
+Returns:
+
+```js
+{
+   ok: true
+}
+```
+
+Error responses
+
+- `400` - missing mandatory parameter
+- `404` - invitation not found

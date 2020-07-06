@@ -9,6 +9,7 @@ process.env.COUCH_URL = COUCH_URL
 process.env.COUCH_INVITATION_DATABASE = DB1
 const postInvitation = require('./postInvitation.js')
 const getInvitation = require('./getInvitation.js')
+const deleteInvitation = require('./deleteInvitation.js')
 
 let id1, id2, id3
 
@@ -83,5 +84,27 @@ test('getInvitation - check', async () => {
 test('getInvitation - invalid', async () => {
   const response = await getInvitation({ inviteId: 'nonsense' })
   expect(response.statusCode).toBe(404)
+  expect(response.body.ok).toBe(false)
+})
+
+test('deleteInvitation - remove invitation by id', async () => {
+  let response = await deleteInvitation({ inviteId: id3 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+
+  response = await getInvitation({ inviteId: id3 })
+  expect(response.statusCode).toBe(404)
+  expect(response.body.ok).toBe(false)
+})
+
+test('deleteInvitation - invalid id', async () => {
+  const response = await getInvitation({ inviteId: 'nonsense' })
+  expect(response.statusCode).toBe(404)
+  expect(response.body.ok).toBe(false)
+})
+
+test('deleteInvitation - missing id', async () => {
+  const response = await getInvitation({ })
+  expect(response.statusCode).toBe(400)
   expect(response.body.ok).toBe(false)
 })

@@ -49,6 +49,10 @@ const postChoirJoin = async (opts) => {
   } catch (e) {
     body = { ok: false }
     statusCode = 404
+    if (e.statusCode === 409) {
+      statusCode = 409
+      body.reason = 'already a member'
+    }
   }
 
   // return API response

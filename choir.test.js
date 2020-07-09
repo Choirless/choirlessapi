@@ -563,7 +563,9 @@ test('postChoirSongPart - create part', async () => {
     partNameId: 'yyy',
     partName: 'Piano',
     partType: 'backing',
-    userName: 'Bob'
+    userName: 'Bob',
+    offset: 200,
+    aspectRatio: '1024:768'
   }
   response = await postChoirSongPart(obj)
   expect(response.statusCode).toBe(200)
@@ -592,6 +594,8 @@ test('getChoirSongPart - get part', async () => {
   expect(response.body.part.userName).toBe('Bob')
   expect(response.body.part.partName).toBe('Piano')
   expect(response.body.part.partType).toBe('backing')
+  expect(response.body.part.offset).toBe(200)
+  expect(response.body.part.aspectRatio).toBe('1024:768')
 })
 
 test('postChoirSongPart - update part', async () => {
@@ -618,6 +622,7 @@ test('postChoirSongPart - update part', async () => {
 
   // edit partType
   doc.partType = 'backing'
+  doc.aspectRatio = '400:300'
   response = await postChoirSongPart(doc)
   expect(response.body.ok).toBe(true)
   response = await getChoirSongPart({ choirId: london, songId: song1, partId: part1 })
@@ -626,6 +631,7 @@ test('postChoirSongPart - update part', async () => {
   expect(response.body.part.partName).toBe('tenor')
   expect(response.body.part.partType).toBe('backing')
   expect(response.body.part.offset).toBe(150)
+  expect(response.body.part.aspectRatio).toBe('400:300')
 })
 
 test('getChoirSongParts - get all parts', async () => {

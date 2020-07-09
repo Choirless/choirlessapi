@@ -256,6 +256,7 @@ Parameters:
 - `userId` - the id of the user (required for new parts)
 - `userName` - the name of the user (required for new parts)
 - `offset` - the number of milliseconds after the reference part that this recording started (default 0)
+- `aspectRadio` - the aspect ratio of the video e.g. `4:3`
 
 Returns
 

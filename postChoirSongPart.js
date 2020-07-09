@@ -34,6 +34,7 @@ const postChoirSongPart = async (opts) => {
       doc = await db.get(id)
       doc.partType = opts.partType ? opts.partType : doc.partType
       doc.offset = typeof opts.offset === 'number' ? opts.offset : doc.offset
+      doc.aspectRatio = opts.aspectRatio ? opts.aspectRatio : doc.aspectRatio
       partId = opts.partId
     } catch (e) {
       return {
@@ -63,7 +64,8 @@ const postChoirSongPart = async (opts) => {
       partNameId: opts.partNameId || '',
       partName: opts.partName || '',
       partType: opts.partType || 'backing',
-      offset: opts.offset || 0
+      offset: opts.offset || 0,
+      aspectRatio: opts.aspectRatio || ''
     }
   }
 

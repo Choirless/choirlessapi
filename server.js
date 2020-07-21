@@ -35,9 +35,6 @@ const deleteChoirSongPartName = require('./deleteChoirSongPartName.js')
 const postChoirSongPart = require('./postChoirSongPart.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
-const postQueueMixdown = require('./postQueueMixdown.js')
-const postQueueSongPart = require('./postQueueSongPart.js')
-const getQueue = require('./getQueue.js')
 const postInvitation = require('./postInvitation.js')
 const getInvitation = require('./getInvitation.js')
 const getInvitationList = require('./getInvitationList.js')
@@ -130,21 +127,6 @@ app.get('/choir/songparts', [keyProtect], async (req, res) => {
 
 app.get('/choir/songpart', [keyProtect], async (req, res) => {
   const response = await getChoirSongPart(req.query)
-  res.status(response.statusCode).send(response.body)
-})
-
-app.post('/queue/songpart', [keyProtect], async (req, res) => {
-  const response = await postQueueSongPart(req.body)
-  res.status(response.statusCode).send(response.body)
-})
-
-app.post('/queue/mixdown', [keyProtect], async (req, res) => {
-  const response = await postQueueMixdown(req.body)
-  res.status(response.statusCode).send(response.body)
-})
-
-app.get('/queue', [keyProtect], async (req, res) => {
-  const response = await getQueue(req.query)
   res.status(response.statusCode).send(response.body)
 })
 

@@ -39,6 +39,8 @@ const postInvitation = require('./postInvitation.js')
 const getInvitation = require('./getInvitation.js')
 const getInvitationList = require('./getInvitationList.js')
 const deleteInvitation = require('./deleteInvitation.js')
+const postRender = require('./postRender.js')
+const getRender = require('./getRender.js')
 
 // Health endpoint
 app.get('/__gtg', async (req, res) => {
@@ -147,6 +149,16 @@ app.get('/invitation', [keyProtect], async (req, res) => {
 
 app.delete('/invitation', [keyProtect], async (req, res) => {
   const response = await deleteInvitation(req.body)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.post('/render', [keyProtect], async (req, res) => {
+  const response = await postRender(req.body)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.get('/invitation', [keyProtect], async (req, res) => {
+  const response = await getRender(req.query)
   res.status(response.statusCode).send(response.body)
 })
 

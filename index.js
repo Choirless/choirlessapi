@@ -30,6 +30,8 @@ const postInvitation = require('./postInvitation.js')
 const getInvitation = require('./getInvitation.js')
 const getInvitationList = require('./getInvitationList.js')
 const deleteInvitation = require('./deleteInvitation.js')
+const postRender = require('./postRender.js')
+const getRender = require('./getRender.js')
 
 module.exports = {
   getUser: arg => wrapper(getUser, arg),
@@ -51,5 +53,7 @@ module.exports = {
   postInvitation: arg => wrapper(postInvitation, arg),
   getInvitation: arg => wrapper(getInvitation, arg),
   getInvitationList: arg => wrapper(getInvitationList, arg),
-  deleteInvitation: arg => wrapper(deleteInvitation, arg)
+  deleteInvitation: arg => wrapper(deleteInvitation, arg),
+  postRender: arg => wrapper(postRender, arg),
+  getRender: arg => wrapper(getRender, arg)
 }

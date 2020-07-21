@@ -377,3 +377,39 @@ Error responses
 
 - `400` - missing mandatory parameter
 - `404` - invitation not found
+
+## Render
+
+### POST /render
+
+Parameters:
+
+- `choirId` - the id of choir whose song is being rendered (required)
+- `songId` - the id of the song being rendered (required) 
+- `status` - one of `new`/`converted`/`aligned`/`rendered` (default `new`)
+
+Returns:
+
+```js
+{
+  ok: true
+}
+```
+
+### GET /render
+
+Parameters:
+
+- `choirId` - the id of the choir whose song is being rendered (required)
+- `songId` - the id of the song being rendered (required)
+
+Returns:
+
+```js
+{
+   ok: true,
+   render: {
+     ... render object ...
+   }
+}
+```

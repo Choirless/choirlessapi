@@ -12,7 +12,7 @@ The following environment variables configure how the API accesses the database
 - `COUCH_USERS_DATABASE` - the name of the users database, storing registered Choirless users.
 - `COUCH_CHOIRLESS_DATABASE` - the name of the main choirless database (stores choirs/members/songs/parts).
 - `COUCH_KEYS_DATABASE` - the name of the database for storing API access keys.
-- `COUCH_QUEUE_DATABASE` - the nane of the database to store queued requests
+- `COUCH_RENDER_DATABASE` - the name of the database to store render status objects.
 
 ### W3ID Environment Variables
 
@@ -240,3 +240,21 @@ This allows a user to extend an invitation to new user to join the choir:
   expires: <expiry timestamp of invite>
 }
 ```
+
+### Render
+
+This records progress of the rendering process:
+
+```js
+{
+  choirId: "<choirid>",
+  songId: "<songid>",
+  status: "new", // one of new/converted/aligned/rendered,
+  date: "2020-08-01T10:56:22.000Z"
+}
+```
+
+- when a song part is uploaded to COS, it will have a status of 'new'
+- when the webm file is converted and resized to mkv it will be 'converted'
+- when the song part has been matched and aligned with the lead part, it will be 'aligned'
+- when the montage video has been created it will be 'rendered'

@@ -306,75 +306,6 @@ Returns
 }
 ```
 
-## Queue
-
-### POST /queue/songpart
-
-Creates/edits an queue item to process an uploaded song part.
-
-Parameters (new queue item):
-
-- `choirId` - the id of the choir (required)
-- `songId` - the id of the song (required)
-- `partId` - the id of the part (required)
-
-Parameters (edit queue item):
-
-- `id` - the id of the queue item (required)
-- `status` - the status `new`/`inprogress`/`complete` (required)
-
-
-Returns
-
-```js
-{
-  ok: true,
-  id: "<id>"
-}
-```
-
-### POST /queue/mixdown
-
-Creates/edits an queue item to perform a mixdown of a song.
-
-Parameters (new queue item):
-
-- `choirId` - the id of the choir (required)
-- `songId` - the id of the song (required)
-
-Parameters (edit queue item):
-
-- `id` - the id of the queue item (required)
-- `status` - the status `new`/`inprogress`/`complete` (required)
-
-
-Returns
-
-```js
-{
-  ok: true,
-  id: "<id>"
-}
-```
-
-
-### GET /queue
-
-Get a queue item by id.
-
-Parameters:
-
-- `id` - the id of the queue item (required)
-
-Returns
-
-```js
-{
-  ok: true,
-  queueItem: { ... }
-}
-```
-
 ## Invitations
 
 ### POST /invitation
@@ -447,3 +378,39 @@ Error responses
 
 - `400` - missing mandatory parameter
 - `404` - invitation not found
+
+## Render
+
+### POST /render
+
+Parameters:
+
+- `choirId` - the id of choir whose song is being rendered (required)
+- `songId` - the id of the song being rendered (required) 
+- `status` - one of `new`/`converted`/`aligned`/`rendered` (default `new`)
+
+Returns:
+
+```js
+{
+  ok: true
+}
+```
+
+### GET /render
+
+Parameters:
+
+- `choirId` - the id of the choir whose song is being rendered (required)
+- `songId` - the id of the song being rendered (required)
+
+Returns:
+
+```js
+{
+   ok: true,
+   render: {
+     ... render object ...
+   }
+}
+```

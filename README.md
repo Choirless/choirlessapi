@@ -12,7 +12,7 @@ The following environment variables configure how the API accesses the database
 - `COUCH_USERS_DATABASE` - the name of the users database, storing registered Choirless users.
 - `COUCH_CHOIRLESS_DATABASE` - the name of the main choirless database (stores choirs/members/songs/parts).
 - `COUCH_KEYS_DATABASE` - the name of the database for storing API access keys.
-- `COUCH_QUEUE_DATABASE` - the nane of the database to store queued requests
+- `COUCH_RENDER_DATABASE` - the name of the database to store render status objects.
 
 ### W3ID Environment Variables
 
@@ -228,49 +228,6 @@ partType:
 - `reference` - exemplar rendition of part
 - `rendition` - choir members rendition of a reference part
 
-### Queue
-
-A queue item can take two forms:
-
-When a new part is uploaded a queue item is created to:
-
-- convert webm files to mp4
-- extract the audio
-- generate a thumbnail image of the video
-
-```js
-{
-   _id: "<kuuid>",
-  type: "songpart",
-  status: "new".  // one of new/inprogress/complete
-  choirId: "<choirid>",
-  songId: "<songid>",
-  partId: "<partid>",
-  partName: "alto",
-  partType: "rendition",
-  createdBy: "<userid>",
-  name: "Glynn Bird",
-  createdOn: "2020-05-01",
-  offset: 0
-}
-```
-
-or when the user wishes to render a song, an item is added to a queue so that
-
-- all audio files are mixed down into combined audio file
-- all video clips are mixed with the audio to produce final mp4 video
-
-```js
-{
-   _id: "<kuuid>",
-  type: "mixdown",
-  status: "new".  // one of new/inprogress/complete
-  choirId: "<choirid>",
-  songId: "<songid>",
-  createdOn: "2020-05-01"
-}
-```
-
 ### Invitation
 
 This allows a user to extend an invitation to new user to join the choir:
@@ -284,3 +241,21 @@ This allows a user to extend an invitation to new user to join the choir:
   expires: <expiry timestamp of invite>
 }
 ```
+
+### Render
+
+This records progress of the rendering process:
+
+```js
+{
+  choirId: "<choirid>",
+  songId: "<songid>",
+  status: "new", // one of new/converted/aligned/rendered,
+  date: "2020-08-01T10:56:22.000Z"
+}
+```
+
+- when a song part is uploaded to COS, it will have a status of 'new'
+- when the webm file is converted and resized to mkv it will be 'converted'
+- when the song part has been matched and aligned with the lead part, it will be 'aligned'
+- when the montage video has been created it will be 'rendered'

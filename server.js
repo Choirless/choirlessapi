@@ -35,13 +35,12 @@ const deleteChoirSongPartName = require('./deleteChoirSongPartName.js')
 const postChoirSongPart = require('./postChoirSongPart.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
-const postQueueMixdown = require('./postQueueMixdown.js')
-const postQueueSongPart = require('./postQueueSongPart.js')
-const getQueue = require('./getQueue.js')
 const postInvitation = require('./postInvitation.js')
 const getInvitation = require('./getInvitation.js')
 const getInvitationList = require('./getInvitationList.js')
 const deleteInvitation = require('./deleteInvitation.js')
+const postRender = require('./postRender.js')
+const getRender = require('./getRender.js')
 
 // Health endpoint
 app.get('/__gtg', async (req, res) => {
@@ -133,21 +132,6 @@ app.get('/choir/songpart', [keyProtect], async (req, res) => {
   res.status(response.statusCode).send(response.body)
 })
 
-app.post('/queue/songpart', [keyProtect], async (req, res) => {
-  const response = await postQueueSongPart(req.body)
-  res.status(response.statusCode).send(response.body)
-})
-
-app.post('/queue/mixdown', [keyProtect], async (req, res) => {
-  const response = await postQueueMixdown(req.body)
-  res.status(response.statusCode).send(response.body)
-})
-
-app.get('/queue', [keyProtect], async (req, res) => {
-  const response = await getQueue(req.query)
-  res.status(response.statusCode).send(response.body)
-})
-
 app.post('/invitation', [keyProtect], async (req, res) => {
   const response = await postInvitation(req.body)
   res.status(response.statusCode).send(response.body)
@@ -165,6 +149,16 @@ app.get('/invitation', [keyProtect], async (req, res) => {
 
 app.delete('/invitation', [keyProtect], async (req, res) => {
   const response = await deleteInvitation(req.body)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.post('/render', [keyProtect], async (req, res) => {
+  const response = await postRender(req.body)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.get('/render', [keyProtect], async (req, res) => {
+  const response = await getRender(req.query)
   res.status(response.statusCode).send(response.body)
 })
 

@@ -157,7 +157,7 @@ app.post('/render', [keyProtect], async (req, res) => {
   res.status(response.statusCode).send(response.body)
 })
 
-app.get('/invitation', [keyProtect], async (req, res) => {
+app.get('/render', [keyProtect], async (req, res) => {
   const response = await getRender(req.query)
   res.status(response.statusCode).send(response.body)
 })

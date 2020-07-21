@@ -67,10 +67,9 @@ test('postRender - create render status', async () => {
   response = await postRender(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
-})
 
-test('getRender - check existing song', async () => {
-  const response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
+  await sleep(1000)
+  response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(typeof response.body.render).toBe('object')
@@ -95,14 +94,11 @@ test('postRender - updater status #1', async () => {
     songId: 'xyz789',
     status: 'converted'
   }
-  const response = await postRender(obj)
+  let response = await postRender(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
-  await sleep(2000)
-})
-
-test('getRender - check existing song for updates #1', async () => {
-  const response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
+  await sleep(1000)
+  response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(typeof response.body.render).toBe('object')
@@ -115,14 +111,11 @@ test('postRender - updater status #2', async () => {
     songId: 'xyz789',
     status: 'aligned'
   }
-  const response = await postRender(obj)
+  let response = await postRender(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
-  await sleep(2000)
-})
-
-test('getRender - check existing song for updates #2', async () => {
-  const response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
+  await sleep(1000)
+  response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(typeof response.body.render).toBe('object')
@@ -135,14 +128,11 @@ test('postRender - updater status #3', async () => {
     songId: 'xyz789',
     status: 'rendered'
   }
-  const response = await postRender(obj)
+  let response = await postRender(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
-  await sleep(2000)
-})
-
-test('getRender - check existing song for updates #3', async () => {
-  const response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
+  await sleep(1000)
+  response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(typeof response.body.render).toBe('object')

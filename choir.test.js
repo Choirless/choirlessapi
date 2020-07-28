@@ -25,6 +25,8 @@ const postChoirSongPart = require('./postChoirSongPart.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
 const getUserChoirs = require('./getUserChoirs.js')
+const deleteChoirSong = require('./deleteChoirSong.js')
+const deleteChoirSongPart = require('./deleteChoirSongPart.js')
 
 // test users
 let rita, sue, bob
@@ -686,6 +688,53 @@ test('postChoirSong - create song with parts', async () => {
   expect(typeof response.body.song).toBe('object')
   expect(response.body.song.partNames.length).toBe(5)
   expect(typeof response.body.song.partNames[0]).toBe('object')
+})
+
+test('deleteChoirSongPart - delete song part', async () => {
+  let response = await deleteChoirSongPart({ songId: song1, choirId: london, partId: part1 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+
+  // check there are now 2 parts
+  response = await getChoirSongParts({ songId: song1, choirId: london })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.parts.length).toBe(2)
+})
+
+test('deleteChoirSongPart - invalid partId', async () => {
+  const response = await deleteChoirSongPart({ songId: song1, choirId: london, partId: 'nonsense' })
+  expect(response.statusCode).toBe(404)
+  expect(response.body.ok).toBe(false)
+})
+
+test('deleteChoirSongPart - missing parameters #1', async () => {
+  const response = await deleteChoirSongPart({ songId: song1, choirId: london })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+})
+
+test('deleteChoirSongPart - missing parameters #2', async () => {
+  const response = await deleteChoirSongPart({ songId: song1, partId: part1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+})
+
+test('deleteChoirSongPart - missing parameters #3', async () => {
+  const response = await deleteChoirSongPart({ choirId: london, partId: part1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+})
+
+test('deleteChoirSong - delete song', async () => {
+  let response = await deleteChoirSong({ songId: song1, choirId: london })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+
+  // check song doesn't exist
+  response = await getChoirSong({ songId: song1, choirId: london })
+  expect(response.statusCode).toBe(404)
+  expect(response.body.ok).toBe(false)
 })
 
 afterAll(async () => {

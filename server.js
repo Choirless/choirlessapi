@@ -26,6 +26,7 @@ const getUserChoirs = require('./getUserChoirs.js')
 const getChoir = require('./getChoir.js')
 const getChoirMembers = require('./getChoirMembers.js')
 const getChoirSong = require('./getChoirSong.js')
+const deleteChoirSong = require('./deleteChoirSong.js')
 const getChoirSongs = require('./getChoirSongs.js')
 const postChoir = require('./postChoir.js')
 const postChoirJoin = require('./postChoirJoin.js')
@@ -34,6 +35,7 @@ const postChoirSongPartName = require('./postChoirSongPartName.js')
 const deleteChoirSongPartName = require('./deleteChoirSongPartName.js')
 const postChoirSongPart = require('./postChoirSongPart.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
+const deleteChoirSongPart = require('./deleteChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
 const postInvitation = require('./postInvitation.js')
 const getInvitation = require('./getInvitation.js')
@@ -92,6 +94,11 @@ app.get('/choir/song', [keyProtect], async (req, res) => {
   res.status(response.statusCode).send(response.body)
 })
 
+app.delete('/choir/song', [keyProtect], async (req, res) => {
+  const response = await deleteChoirSong(req.body)
+  res.status(response.statusCode).send(response.body)
+})
+
 app.post('/choir', [keyProtect], async (req, res) => {
   const response = await postChoir(req.body)
   res.status(response.statusCode).send(response.body)
@@ -129,6 +136,11 @@ app.get('/choir/songparts', [keyProtect], async (req, res) => {
 
 app.get('/choir/songpart', [keyProtect], async (req, res) => {
   const response = await getChoirSongPart(req.query)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.delete('/choir/songpart', [keyProtect], async (req, res) => {
+  const response = await deleteChoirSongPart(req.body)
   res.status(response.statusCode).send(response.body)
 })
 

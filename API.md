@@ -203,6 +203,23 @@ Returns
 }
 ```
 
+### DELETE /choir/song
+
+Delete a choir's song and all its song parts
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+
+Returns
+
+```js
+{
+  ok: true
+}
+```
+
 ### GET /choir/songs
 
 Get a list of a choir's songs
@@ -286,6 +303,24 @@ Returns
 }
 ```
 
+
+### DELETE /choir/songpart
+
+Delete a song part
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+- `partId` - the id of the part (required)
+
+Returns
+
+```js
+{
+  ok: true
+}
+```
 
 ### GET /choir/songparts
 

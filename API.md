@@ -367,6 +367,7 @@ Parameters:
 - `creator` - the id of the user who generated the invitation. (required)
 - `invitee` - the email of the person being invited 
 - `choirId` - the choir the invitee is being invited to join
+- `userId` - the id of the user who needs a password reset
 
 Returns:
 

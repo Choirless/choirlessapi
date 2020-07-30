@@ -33,6 +33,7 @@ const postInvitation = async (opts) => {
       creator: opts.creator,
       invitee: opts.invitee,
       choirId: opts.choirId,
+      userId: opts.userId,
       expires: Number(Date.now()) + (1000 * 60 * 60 * 24 * 3)
     }
     debug('postInvitation write invitation item', doc)

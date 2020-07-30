@@ -88,6 +88,23 @@ Returns:
 }
 ```
 
+### GET /user/byemail
+
+Get a user from their email address
+
+Parameters:
+
+- `email` - the email address of the user (required)
+
+Returns:
+
+```js
+{
+  ok: true,
+  user: { ... user object ... }
+}
+```
+
 ## Choir
 
 ### GET /choir

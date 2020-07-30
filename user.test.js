@@ -12,6 +12,7 @@ process.env.COUCH_CHOIRLESS_DATABASE = DB2
 const postUser = require('./postUser.js')
 const postUserLogin = require('./postUserLogin.js')
 const getUser = require('./getUser.js')
+const getUserByEmail = require('./getUserByEmail.js')
 
 // test users
 let rita, sue, bob
@@ -253,5 +254,32 @@ test('getUser - get profile - invalid user', async () => {
 test('postUser - change email - duplicate user check', async () => {
   const response = await postUser({ userId: rita, email: 'bob@aol.com' })
   expect(response.statusCode).toBe(409)
+  expect(response.body.ok).toBe(false)
+})
+
+test('getUserByEmail - get profile', async () => {
+  const response = await getUserByEmail({ email: 'rita2@aol.com' })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(response.body.user.type).toBe('user')
+  expect(response.body.user.name).toBe('Rita Smith')
+  expect(response.body.user.email).toBe('rita2@aol.com')
+  expect(response.body.user.userType).toBe('regular')
+  expect(response.body.user.password).toBe(undefined)
+  expect(response.body.user.salt).toBe(undefined)
+  expect(response.body.user.verified).toBe(true)
+  expect(response.body.user._id).toBe(undefined)
+  expect(response.body.user._rev).toBe(undefined)
+})
+
+test('getUserByEmail - missing email', async () => {
+  const response = await getUserByEmail({ })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+})
+
+test('getUserByEmail - invalid email', async () => {
+  const response = await getUserByEmail({ email: 'rachel@friends.com' })
+  expect(response.statusCode).toBe(404)
   expect(response.body.ok).toBe(false)
 })

@@ -23,6 +23,7 @@ const getUser = require('./getUser.js')
 const postUser = require('./postUser.js')
 const postUserLogin = require('./postUserLogin.js')
 const getUserChoirs = require('./getUserChoirs.js')
+const getUserByEmail = require('./getUserByEmail.js')
 const getChoir = require('./getChoir.js')
 const getChoirMembers = require('./getChoirMembers.js')
 const getChoirSong = require('./getChoirSong.js')
@@ -71,6 +72,11 @@ app.post('/user/login', [keyProtect], async (req, res) => {
 
 app.get('/user/choirs', [keyProtect], async (req, res) => {
   const response = await getUserChoirs(req.query)
+  res.status(response.statusCode).send(response.body)
+})
+
+app.get('/user/byemail', [keyProtect], async (req, res) => {
+  const response = await getUserByEmail(req.query)
   res.status(response.statusCode).send(response.body)
 })
 

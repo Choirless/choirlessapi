@@ -117,3 +117,20 @@ test('getInvitationList - check', async () => {
   expect(response.body.invitations.length).toBe(2)
   expect(typeof response.body.invitations[0]).toBe('object')
 })
+
+test('postInvitation - create password reset invitation', async () => {
+  const obj = {
+    creator: 'xxxyyy',
+    userId: 'uid456'
+  }
+  let response = await postInvitation(obj)
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.id).toBe('string')
+  const inviteId = response.body.id
+  response = await getInvitation({ inviteId: inviteId })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.invitation).toBe('object')
+  expect(response.body.invitation.userId).toBe('uid456')
+})

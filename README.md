@@ -218,7 +218,8 @@ memberType:
   name: "Glynn Bird",
   createdOn: "2020-05-01",
   offset: 0,
-  aspectRatio: "4:3"
+  aspectRatio: "4:3",
+  hidden: false
 }
 ```
 

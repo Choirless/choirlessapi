@@ -630,6 +630,20 @@ test('postChoirSongPart - update part', async () => {
   expect(response.body.part.partType).toBe('backing')
   expect(response.body.part.offset).toBe(150)
   expect(response.body.part.aspectRatio).toBe('400:300')
+  expect(response.body.part.hidden).toBe(false)
+
+  // edit hidden
+  doc.hidden = true
+  response = await postChoirSongPart(doc)
+  expect(response.body.ok).toBe(true)
+  response = await getChoirSongPart({ choirId: london, songId: song1, partId: part1 })
+  expect(response.body.ok).toBe(true)
+  expect(response.body.part.userName).toBe('Rita')
+  expect(response.body.part.partName).toBe('tenor')
+  expect(response.body.part.partType).toBe('backing')
+  expect(response.body.part.offset).toBe(150)
+  expect(response.body.part.aspectRatio).toBe('400:300')
+  expect(response.body.part.hidden).toBe(true)
 })
 
 test('getChoirSongParts - get all parts', async () => {

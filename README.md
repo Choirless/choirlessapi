@@ -217,7 +217,8 @@ memberType:
   createdBy: "<userid>",
   name: "Glynn Bird",
   createdOn: "2020-05-01",
-  offset: 0,
+  offset: 200,
+  frontendOffset: 150,
   aspectRatio: "4:3",
   hidden: false
 }

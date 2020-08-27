@@ -37,6 +37,7 @@ const postChoirSongPart = async (opts) => {
       doc.frontendOffset = typeof opts.frontendOffset === 'number' ? opts.frontendOffset : doc.frontendOffset || 0
       doc.aspectRatio = opts.aspectRatio ? opts.aspectRatio : doc.aspectRatio
       doc.hidden = typeof opts.hidden === 'boolean' ? opts.hidden : doc.hidden || false
+      doc.audio = typeof opts.audio === 'boolean' ? opts.audio : doc.audio || false
       partId = opts.partId
     } catch (e) {
       return {
@@ -69,7 +70,8 @@ const postChoirSongPart = async (opts) => {
       offset: opts.offset || 0,
       frontendOffset: opts.frontendOffset || 0,
       aspectRatio: opts.aspectRatio || '',
-      hidden: false
+      hidden: false,
+      audio: typeof opts.audio === 'boolean' ? opts.audio : false
     }
   }
 

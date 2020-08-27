@@ -220,7 +220,8 @@ memberType:
   offset: 200,
   frontendOffset: 150,
   aspectRatio: "4:3",
-  hidden: false
+  hidden: false,
+  audio: false
 }
 ```
 

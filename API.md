@@ -441,9 +441,8 @@ Error responses
 
 Parameters:
 
-- `choirId` - the id of choir whose song is being rendered (required)
-- `songId` - the id of the song being rendered (required) 
-- `status` - one of `new`/`converted`/`aligned`/`rendered` (default `new`)
+- `partId` - the id of song part that triggered the render (required)
+- `status` - one of `new`/`converted`/`aligned`/`rendered`/`composited`/`done` (default `new`)
 
 Returns:
 
@@ -457,8 +456,7 @@ Returns:
 
 Parameters:
 
-- `choirId` - the id of the choir whose song is being rendered (required)
-- `songId` - the id of the song being rendered (required)
+- `partId` - the id of song part that triggered the render (required)
 
 Returns:
 
@@ -466,7 +464,8 @@ Returns:
 {
    ok: true,
    render: {
-     ... render object ...
+      status: 'new',
+      date: '2020-08-29T10:20:59.000Z'
    }
 }
 ```

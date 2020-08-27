@@ -3,9 +3,8 @@ const debug = require('debug')('choirless')
 let nano = null
 let db = null
 
-// get render status for a song
-// choirId - the id of choir whose song is being rendered
-// songId - the id of the song  being rendered
+// get render status
+// partId - the id of part the triggered the render
 const getRender = async (opts) => {
   // connect to db - reuse connection if present
   if (!db) {
@@ -14,7 +13,7 @@ const getRender = async (opts) => {
   }
 
   // check mandatory parameters
-  if (!opts.choirId || !opts.songId) {
+  if (!opts.partId) {
     return {
       body: { ok: false, message: 'missing mandatory parameters' },
       statusCode: 400,
@@ -26,11 +25,11 @@ const getRender = async (opts) => {
   let statusCode = 200
   let body = {}
   try {
-    debug('getRender', opts.choirId, opts.songId)
-    const id = [opts.choirId, opts.songId, '\uffff'].join(':')
+    debug('getRender', opts.partId)
+    const id = [opts.partId, '\uffff'].join(':')
     const response = await db.list({ startkey: id, descending: true, limit: 1, include_docs: true })
     const doc = response.rows ? response.rows[0].doc : null
-    if (doc && doc.choirId === opts.choirId && doc.songId === opts.songId) {
+    if (doc && doc.partId === opts.partId) {
       delete doc._id
       delete doc._rev
       body.ok = true

@@ -251,14 +251,8 @@ This records progress of the rendering process:
 
 ```js
 {
-  choirId: "<choirid>",
-  songId: "<songid>",
-  status: "new", // one of new/converted/aligned/rendered,
+  partId: "<id of the part that triggered the render>",
+  status: "new", // one of new/converted/aligned/rendered/composited/done
   date: "2020-08-01T10:56:22.000Z"
 }
 ```
-
-- when a song part is uploaded to COS, it will have a status of 'new'
-- when the webm file is converted and resized to mkv it will be 'converted'
-- when the song part has been matched and aligned with the lead part, it will be 'aligned'
-- when the montage video has been created it will be 'rendered'

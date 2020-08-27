@@ -5,9 +5,8 @@ let nano = null
 let db = null
 
 // create a render status object
-// choirId - the id of the choir whose song is being rendered
-// songId - the if of song being rendered
-// status - the status of the render new/converted/aligned/rendered
+// partId - the id of the part the triggered the render
+// status - the status of the render new/converted/aligned/rendered/composited/done
 const postRender = async (opts) => {
   // connect to db - reuse connection if present
   if (!db) {
@@ -16,7 +15,7 @@ const postRender = async (opts) => {
   }
 
   // check for mandatory fields
-  if (!opts.choirId || !opts.songId) {
+  if (!opts.partId) {
     return {
       body: { ok: false, message: 'missing mandatory fields' },
       statusCode: 400,
@@ -28,7 +27,7 @@ const postRender = async (opts) => {
   if (!opts.status) {
     opts.status = 'new'
   }
-  if (!['new', 'converted', 'aligned', 'rendered'].includes(opts.status)) {
+  if (!['new', 'converted', 'aligned', 'rendered', 'composited', 'done'].includes(opts.status)) {
     return {
       body: { ok: false, message: 'invalid status' },
       statusCode: 400,
@@ -41,11 +40,10 @@ const postRender = async (opts) => {
   let body = {}
   try {
     const doc = {
-      _id: [opts.choirId, opts.songId, kuuid.id()].join(':'),
-      choirId: opts.choirId,
-      songId: opts.songId,
+      _id: [opts.partId, kuuid.id()].join(':'),
+      partId: opts.partId,
       status: opts.status,
-      expires: new Date().toISOString()
+      date: new Date().toISOString()
     }
     debug('postRender write render status', doc)
     await db.insert(doc)

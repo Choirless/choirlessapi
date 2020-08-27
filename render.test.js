@@ -36,7 +36,6 @@ test('postRender - missing parameters #1', async () => {
 
 test('postRender - missing parameters #2', async () => {
   const obj = {
-    songId: 'xyz123'
   }
   const response = await postRender(obj)
   expect(response.statusCode).toBe(400)
@@ -45,31 +44,28 @@ test('postRender - missing parameters #2', async () => {
 
 test('postRender - create render status', async () => {
   let obj = {
-    choirId: 'abc123',
-    songId: 'mno456'
+    partId: 'xyz789'
   }
   let response = await postRender(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
 
   obj = {
-    choirId: 'abc123',
-    songId: 'xyz789'
+    partId: 'abc123'
   }
   response = await postRender(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
 
   obj = {
-    choirId: 'abc123',
-    songId: 'zzz789'
+    partId: 'mno456'
   }
   response = await postRender(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
 
   await sleep(1000)
-  response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
+  response = await getRender({ partId: 'xyz789' })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(typeof response.body.render).toBe('object')
@@ -77,28 +73,21 @@ test('postRender - create render status', async () => {
 })
 
 test('getRender - check non-existant song', async () => {
-  const response = await getRender({ choirId: 'abc123', songId: 'mmmm' })
-  expect(response.statusCode).toBe(404)
-  expect(response.body.ok).toBe(false)
-})
-
-test('getRender - check non-existant choir', async () => {
-  const response = await getRender({ choirId: 'iiii', songId: 'xyz789' })
+  const response = await getRender({ partId: 'nothing' })
   expect(response.statusCode).toBe(404)
   expect(response.body.ok).toBe(false)
 })
 
 test('postRender - updater status #1', async () => {
   const obj = {
-    choirId: 'abc123',
-    songId: 'xyz789',
+    partId: 'xyz789',
     status: 'converted'
   }
   let response = await postRender(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   await sleep(1000)
-  response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
+  response = await getRender({ partId: 'xyz789' })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(typeof response.body.render).toBe('object')
@@ -107,15 +96,14 @@ test('postRender - updater status #1', async () => {
 
 test('postRender - updater status #2', async () => {
   const obj = {
-    choirId: 'abc123',
-    songId: 'xyz789',
+    partId: 'xyz789',
     status: 'aligned'
   }
   let response = await postRender(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   await sleep(1000)
-  response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
+  response = await getRender({ partId: 'xyz789' })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(typeof response.body.render).toBe('object')
@@ -124,25 +112,39 @@ test('postRender - updater status #2', async () => {
 
 test('postRender - updater status #3', async () => {
   const obj = {
-    choirId: 'abc123',
-    songId: 'xyz789',
+    partId: 'xyz789',
     status: 'rendered'
   }
   let response = await postRender(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   await sleep(1000)
-  response = await getRender({ choirId: 'abc123', songId: 'xyz789' })
+  response = await getRender({ partId: 'xyz789' })
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
   expect(typeof response.body.render).toBe('object')
   expect(response.body.render.status).toBe('rendered')
 })
 
+test('postRender - updater status #4', async () => {
+  const obj = {
+    partId: 'xyz789',
+    status: 'done'
+  }
+  let response = await postRender(obj)
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  await sleep(1000)
+  response = await getRender({ partId: 'xyz789' })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.render).toBe('object')
+  expect(response.body.render.status).toBe('done')
+})
+
 test('postRender - invalid status', async () => {
   const obj = {
-    choirId: 'abc123',
-    songId: 'xyz789',
+    partId: 'xyz789',
     status: 'sausages'
   }
   const response = await postRender(obj)

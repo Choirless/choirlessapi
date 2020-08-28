@@ -5,6 +5,8 @@ let nano = null
 let db = null
 
 // create a render status object
+// choirId - the id of the choir
+// songId - the id of the song
 // partId - the id of the part the triggered the render
 // status - the status of the render new/converted/aligned/rendered/composited/done
 const postRender = async (opts) => {
@@ -15,7 +17,7 @@ const postRender = async (opts) => {
   }
 
   // check for mandatory fields
-  if (!opts.partId) {
+  if (!opts.partId || !opts.choirId || !opts.songId) {
     return {
       body: { ok: false, message: 'missing mandatory fields' },
       statusCode: 400,
@@ -40,7 +42,9 @@ const postRender = async (opts) => {
   let body = {}
   try {
     const doc = {
-      _id: [opts.partId, kuuid.id()].join(':'),
+      _id: [opts.choirId, opts.songId, opts.partId, kuuid.id()].join(':'),
+      choirId: opts.choirId,
+      songId: opts.songId,
       partId: opts.partId,
       status: opts.status,
       date: new Date().toISOString()

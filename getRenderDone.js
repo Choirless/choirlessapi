@@ -3,11 +3,10 @@ const debug = require('debug')('choirless')
 let nano = null
 let db = null
 
-// get render status
+// get render done
 // choirId - the id of the choir
 // songId - the id of the song
-// partId - the id of part the triggered the render
-const getRender = async (opts) => {
+const getRenderDone = async (opts) => {
   // connect to db - reuse connection if present
   if (!db) {
     nano = Nano(process.env.COUCH_URL)
@@ -15,7 +14,7 @@ const getRender = async (opts) => {
   }
 
   // check mandatory parameters
-  if (!opts.partId || !opts.choirId || !opts.songId) {
+  if (!opts.choirId || !opts.songId) {
     return {
       body: { ok: false, message: 'missing mandatory parameters' },
       statusCode: 400,
@@ -27,21 +26,26 @@ const getRender = async (opts) => {
   let statusCode = 200
   let body = {}
   try {
-    debug('getRender', opts.choirId, opts.songId, opts.partId)
-    const id = [opts.choirId, opts.songId, opts.partId, '\uffff'].join(':')
-    const response = await db.list({ startkey: id, descending: true, limit: 1, include_docs: true })
-    const doc = response.rows ? response.rows[0].doc : null
-    if (doc && doc.partId === opts.partId) {
-      delete doc._id
-      delete doc._rev
-      body.ok = true
-      body.render = doc
-    } else {
-      body.ok = false
-      statusCode = 404
+    debug('getRenderDone', opts.choirId, opts.songId, opts.partId)
+    const query = {
+      selector: {
+        status: 'done',
+        choirId: opts.choirId,
+        songId: opts.songId
+      },
+      sort: [
+        { choirId: 'desc' },
+        { songId: 'desc' },
+        { partId: 'desc' }
+      ],
+      limit: 50,
+      use_index: 'find/completedRenders',
+      execution_stats: true
     }
+    const result = await db.find(query)
+    body.renders = result.docs.map((d) => { delete d._id; delete d._rev; return d })
   } catch (e) {
-    body = { ok: false, err: 'Failed to fetch render' }
+    body = { ok: false, err: 'Failed to fetch completed renders' }
     statusCode = 404
   }
 
@@ -53,4 +57,4 @@ const getRender = async (opts) => {
   }
 }
 
-module.exports = getRender
+module.exports = getRenderDone

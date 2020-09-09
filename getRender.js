@@ -15,7 +15,7 @@ const getRender = async (opts) => {
   }
 
   // check mandatory parameters
-  if (!opts.partId || !opts.choirId || !opts.songId) {
+  if (!opts.choirId || !opts.songId) {
     return {
       body: { ok: false, message: 'missing mandatory parameters' },
       statusCode: 400,
@@ -27,11 +27,11 @@ const getRender = async (opts) => {
   let statusCode = 200
   let body = {}
   try {
-    debug('getRender', opts.choirId, opts.songId, opts.partId)
-    const id = [opts.choirId, opts.songId, opts.partId, '\uffff'].join(':')
+    debug('getRender', opts.choirId, opts.songId)
+    const id = [opts.choirId, opts.songId, '\uffff'].join(':')
     const response = await db.list({ startkey: id, descending: true, limit: 1, include_docs: true })
     const doc = response.rows ? response.rows[0].doc : null
-    if (doc && doc.partId === opts.partId) {
+    if (doc && doc.songId === opts.songId) {
       delete doc._id
       delete doc._rev
       body.ok = true

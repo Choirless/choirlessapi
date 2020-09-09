@@ -26,7 +26,7 @@ const getRenderDone = async (opts) => {
   let statusCode = 200
   let body = {}
   try {
-    debug('getRenderDone', opts.choirId, opts.songId, opts.partId)
+    debug('getRenderDone', opts.choirId, opts.songId)
     const query = {
       selector: {
         status: 'done',
@@ -36,7 +36,7 @@ const getRenderDone = async (opts) => {
       sort: [
         { choirId: 'desc' },
         { songId: 'desc' },
-        { partId: 'desc' }
+        { date: 'desc' }
       ],
       limit: 50,
       use_index: 'find/completedRenders',

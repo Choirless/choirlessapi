@@ -17,7 +17,7 @@ const postRender = async (opts) => {
   }
 
   // check for mandatory fields
-  if (!opts.partId || !opts.choirId || !opts.songId) {
+  if (!opts.choirId || !opts.songId) {
     return {
       body: { ok: false, message: 'missing mandatory fields' },
       statusCode: 400,
@@ -42,10 +42,10 @@ const postRender = async (opts) => {
   let body = {}
   try {
     const doc = {
-      _id: [opts.choirId, opts.songId, opts.partId, kuuid.id()].join(':'),
+      _id: [opts.choirId, opts.songId, kuuid.id()].join(':'),
       choirId: opts.choirId,
       songId: opts.songId,
-      partId: opts.partId,
+      partId: opts.partId || null,
       status: opts.status,
       date: new Date().toISOString()
     }

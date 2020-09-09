@@ -464,7 +464,7 @@ Parameters:
 
 - `choirId` - the id of the choir (required)
 - `songId` - the id of the song (required)
-- `partId` - the id of song part that triggered the render (required)
+- `partId` - the id of song part that triggered the render
 
 Returns:
 
@@ -474,7 +474,7 @@ Returns:
    render: {
       choirId: 'x',
       songId: 'y',
-      partId: 'z',
+      partId: 'z', // or null
       status: 'new',
       date: '2020-08-29T10:20:59.000Z'
    }

@@ -251,6 +251,8 @@ This records progress of the rendering process:
 
 ```js
 {
+  choirId: '<id of choir whose song is being rendererd>',
+  songId: '<id of song being rendererd>',
   partId: "<id of the part that triggered the render>",
   status: "new", // one of new/converted/aligned/rendered/composited/done
   date: "2020-08-01T10:56:22.000Z"

@@ -439,8 +439,12 @@ Error responses
 
 ### POST /render
 
+Update the status of a render job.
+
 Parameters:
 
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
 - `partId` - the id of song part that triggered the render (required)
 - `status` - one of `new`/`converted`/`aligned`/`rendered`/`composited`/`done` (default `new`)
 
@@ -454,9 +458,13 @@ Returns:
 
 ### GET /render
 
+Check the status of a render job.
+
 Parameters:
 
-- `partId` - the id of song part that triggered the render (required)
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+- `partId` - the id of song part that triggered the render
 
 Returns:
 
@@ -464,8 +472,35 @@ Returns:
 {
    ok: true,
    render: {
+      choirId: 'x',
+      songId: 'y',
+      partId: 'z', // or null
       status: 'new',
       date: '2020-08-29T10:20:59.000Z'
    }
+}
+```
+
+### GET /render/done
+
+Get completed render jobs for a given song. Returns up to fifty render jobs - newest first.
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+
+Returns:
+
+```js
+{
+   ok: true,
+   renders: [{
+      choirId: 'x',
+      songId: 'y',
+      partId: 'z',
+      status: 'new',
+      date: '2020-08-29T10:20:59.000Z'
+   }]
 }
 ```

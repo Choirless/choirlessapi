@@ -66,6 +66,11 @@ beforeAll(async () => {
   response = await postUser(obj)
   expect(response.statusCode).toBe(200)
   rita = response.body.userId
+
+  // create indexes
+  const db2 = nano.db.use(DB2)
+  await db2.createIndex({ index: { fields: ['type'] }, name: 'byType', partitioned: true })
+  await db2.createIndex({ index: { fields: ['userId', 'type'] }, name: 'byUserIdType', partitioned: false })
 })
 
 test('postChoir - invalid parameters', async () => {

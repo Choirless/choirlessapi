@@ -19,6 +19,8 @@ const sleep = async (ms) => {
 
 beforeAll(async () => {
   await nano.db.create(DB1)
+  const db1 = nano.db.use(DB1)
+  await db1.createIndex({ ddoc: 'find', index: { partial_filter_selector: { status: 'done' }, fields: ['choirId', 'songId', 'date'] }, name: 'completedRenders', partitioned: false })
 })
 
 afterAll(async () => {

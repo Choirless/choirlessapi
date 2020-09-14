@@ -239,7 +239,7 @@ Returns
 
 ### GET /choir/songs
 
-Get a list of a choir's songs
+Get a list of a choir's songs in newest first order.
 
 Parameters:
 

@@ -20,6 +20,8 @@ let rita, sue, bob
 beforeAll(async () => {
   await nano.db.create(DB1)
   await nano.db.create(DB2, { partitioned: true })
+  const db1 = nano.db.use(DB1)
+  await db1.createIndex({ index: { fields: ['email'] }, name: 'byEmail' })
 })
 
 afterAll(async () => {

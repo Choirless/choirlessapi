@@ -31,7 +31,8 @@ const getChoirSongs = async (opts) => {
     const query = {
       selector: {
         type: 'song'
-      }
+      },
+      sort: [{ type: 'desc' }] // newest song first
     }
     const results = await db.partitionedFind(opts.choirId, query)
     body = {

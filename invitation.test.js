@@ -16,6 +16,8 @@ let id1, id2, id3
 
 beforeAll(async () => {
   await nano.db.create(DB1)
+  const db1 = nano.db.use(DB1)
+  await db1.createIndex({ index: { fields: ['expires'] }, name: 'byExpiration', partitioned: false })
 })
 
 afterAll(async () => {

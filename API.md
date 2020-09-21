@@ -164,7 +164,7 @@ Returns
 
 ### POST /choir/join
 
-Add a user to a choir
+Add a user to a choir, or call again to edit the `memberType` e.g. promote member to leader
 
 Parameters:
 
@@ -172,6 +172,23 @@ Parameters:
 - `userId` - the user joining the choir
 - `name` - the name of the user joining the choir
 - `memberType` - one of `leader`/`member`
+
+Returns
+
+```js
+{
+  ok: true
+}
+```
+
+### DELETE /choir/join
+
+Remove a user from a choir
+
+Parameters:
+
+- `choirId` - the choir to join
+- `userId` - the user joining the choir
 
 Returns
 

@@ -256,7 +256,7 @@ test('join choir - new members', async () => {
     userId: sue,
     name: 'Sue',
     choirId: london,
-    memberType: 'leader'
+    memberType: 'member'
   }
   let response = await postChoirJoin(obj)
   expect(response.statusCode).toBe(200)
@@ -277,6 +277,28 @@ test('join choir - new members', async () => {
     name: 'Bob',
     choirId: manchester,
     memberType: 'member'
+  }
+  response = await postChoirJoin(obj)
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+
+  // make sure Sue can't join twice
+  obj = {
+    userId: sue,
+    name: 'Sue',
+    choirId: london,
+    memberType: 'member'
+  }
+  response = await postChoirJoin(obj)
+  expect(response.statusCode).toBe(409)
+  expect(response.body.ok).toBe(false)
+
+  // make sure Sue can be promoted to leader
+  obj = {
+    userId: sue,
+    name: 'Sue',
+    choirId: london,
+    memberType: 'leader'
   }
   response = await postChoirJoin(obj)
   expect(response.statusCode).toBe(200)

@@ -29,14 +29,33 @@ const postChoirJoin = async (opts) => {
     }
   }
 
-  const doc = {
-    _id: opts.choirId + ':member:' + opts.userId,
-    type: 'choirmember',
-    userId: opts.userId,
-    choirId: opts.choirId,
-    name: opts.name,
-    joined: now.toISOString(),
-    memberType: opts.memberType
+  const id = opts.choirId + ':member:' + opts.userId
+  let doc
+  try {
+    doc = await db.get(id)
+    // If we got this far, the user is already a member of the choir.
+    // If they are of the same member type, we needn't do anything else
+    if (doc.memberType === opts.memberType) {
+      return {
+        body: { ok: false, reason: 'already a member' },
+        statusCode: 409,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    } else {
+      // overwrite the member type
+      doc.memberType = opts.memberType
+    }
+  } catch (e) {
+    // new membership of choir
+    doc = {
+      _id: id,
+      type: 'choirmember',
+      userId: opts.userId,
+      choirId: opts.choirId,
+      name: opts.name,
+      joined: now.toISOString(),
+      memberType: opts.memberType
+    }
   }
 
   // write user to database
@@ -49,10 +68,6 @@ const postChoirJoin = async (opts) => {
   } catch (e) {
     body = { ok: false }
     statusCode = 404
-    if (e.statusCode === 409) {
-      statusCode = 409
-      body.reason = 'already a member'
-    }
   }
 
   // return API response

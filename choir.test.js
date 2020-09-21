@@ -16,6 +16,7 @@ const postChoir = require('./postChoir.js')
 const getChoir = require('./getChoir.js')
 const getChoirMembers = require('./getChoirMembers.js')
 const postChoirJoin = require('./postChoirJoin.js')
+const deleteChoirJoin = require('./deleteChoirJoin.js')
 const postChoirSong = require('./postChoirSong.js')
 const getChoirSong = require('./getChoirSong.js')
 const getChoirSongs = require('./getChoirSongs.js')
@@ -29,7 +30,7 @@ const deleteChoirSong = require('./deleteChoirSong.js')
 const deleteChoirSongPart = require('./deleteChoirSongPart.js')
 
 // test users
-let rita, sue, bob
+let rita, sue, bob, frank
 let london, bristol, manchester
 let song1, song2
 let part1, part2, part3
@@ -66,6 +67,15 @@ beforeAll(async () => {
   response = await postUser(obj)
   expect(response.statusCode).toBe(200)
   rita = response.body.userId
+
+  obj = {
+    name: 'Frank',
+    email: 'frank@aol.com',
+    password: 'flowers'
+  }
+  response = await postUser(obj)
+  expect(response.statusCode).toBe(200)
+  frank = response.body.userId
 
   // create indexes
   const db2 = nano.db.use(DB2)
@@ -303,6 +313,36 @@ test('join choir - new members', async () => {
   response = await postChoirJoin(obj)
   expect(response.statusCode).toBe(200)
   expect(response.body.ok).toBe(true)
+
+  obj = {
+    userId: frank,
+    name: 'Frank',
+    choirId: london,
+    memberType: 'member'
+  }
+  response = await postChoirJoin(obj)
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+})
+
+test('remove from choir - delete members', async () => {
+  // frank's out
+  let obj = {
+    userId: frank,
+    choirId: london
+  }
+  let response = await deleteChoirJoin(obj)
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+
+  // but he can't be kicked out twice
+  obj = {
+    userId: frank,
+    choirId: london
+  }
+  response = await deleteChoirJoin(obj)
+  expect(response.statusCode).toBe(404)
+  expect(response.body.ok).toBe(false)
 })
 
 test('getChoirMembers - check membership again', async () => {

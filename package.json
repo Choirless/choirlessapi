@@ -1,6 +1,6 @@
 {
   "name": "choirlessapi",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "Choirless API service",
   "main": "index.js",
   "scripts": {
@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "jest": "^26.4.2",
+    "node-forge": "^0.10.0",
     "standard": "^14.3.4"
   },
   "standard": {

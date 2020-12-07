@@ -40,7 +40,7 @@ const deleteChoirSongPartName = async (opts) => {
 
   // see if partNameId is present in partNames
   let index = null
-  for (var i = 0; i < doc.partNames.length; i++) {
+  for (let i = 0; i < doc.partNames.length; i++) {
     if (doc.partNames[i].partNameId === opts.partNameId) {
       index = i
     }

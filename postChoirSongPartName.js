@@ -46,7 +46,7 @@ const postChoirSongPartName = async (opts) => {
   if (!opts.partNameId) {
     opts.partNameId = kuuid.id()
   } else {
-    for (var i = 0; i < doc.partNames.length; i++) {
+    for (let i = 0; i < doc.partNames.length; i++) {
       if (doc.partNames[i].partNameId === opts.partNameId) {
         index = i
       }

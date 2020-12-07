@@ -2,12 +2,13 @@ const debug = require('debug')('keyManagement')
 const Nano = require('nano')
 const router = require('express').Router()
 const kuuid = require('kuuid')
+const path = require('path')
 
 const nano = Nano(process.env.COUCH_URL)
 const db = nano.db.use(process.env.COUCH_KEYS_DATABASE)
 
 router.get('/', (req, res, next) => {
-  res.sendFile(`${__dirname}/static/key-management.html`)
+  res.sendFile(path.join(__dirname, 'static', 'key-management.html'))
 })
 
 router.post('/create', async (req, res, next) => {

@@ -42,7 +42,7 @@ const deleteSong = async (opts) => {
     }
     const docs = []
     const results = await db.partitionedFind(opts.choirId, query)
-    for (var i in results.docs) {
+    for (const i in results.docs) {
       const part = results.docs[i]
       const obj = {
         _id: part._id,

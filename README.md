@@ -221,7 +221,8 @@ memberType:
   frontendOffset: 150,
   aspectRatio: "4:3",
   hidden: false,
-  audio: false
+  audio: false,
+  volume: 1.0
 }
 ```
 

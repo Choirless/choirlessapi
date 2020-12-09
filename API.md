@@ -310,7 +310,8 @@ Parameters:
 - `frontendOffset` - the number of milliseconds after the reference part that this recording started according to the user (default 0)
 - `aspectRadio` - the aspect ratio of the video e.g. `4:3`
 - `hidden` - boolean indicating whether this part is to be hidden in the final mix e.g. `false`
-- `audio` - boolen, if true indicates this song part is audio only. default `false`
+- `audio` - boolean, if true indicates this song part is audio only. default `false`
+- `volume` - number representing the volume of the song part default `1.0`
 
 Returns
 

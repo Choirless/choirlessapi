@@ -30,6 +30,7 @@ const postChoirSongPartName = require('./postChoirSongPartName.js')
 const deleteChoirSongPartName = require('./deleteChoirSongPartName.js')
 const postChoirSongPart = require('./postChoirSongPart.js')
 const postChoirSongPartUpload = require('./postChoirSongPartUpload.js')
+const postChoirSongPartDownload = require('./postChoirSongPartDownload.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
 const getUserChoirs = require('./getUserChoirs.js')
@@ -904,6 +905,33 @@ test('postChoirSongPartUpload - upload missing params', async () => {
   expect(response.body.ok).toBe(false)
 
   response = await postChoirSongPartUpload({ })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+})
+
+test('postChoirSongPartDownload - download presign', async () => {
+  const response = await postChoirSongPartDownload({ songId: song1, choirId: london, partId: part1 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.url).toBe('string')
+  expect(typeof response.body.key).toBe('string')
+  expect(response.body.method).toBe('GET')
+})
+
+test('postChoirSongPartDownload - download missing params', async () => {
+  let response = await postChoirSongPartDownload({ choirId: london, partId: part1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+
+  response = await postChoirSongPartDownload({ songId: song1, partId: part1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+
+  response = await postChoirSongPartDownload({ songId: song1, choirId: london })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+
+  response = await postChoirSongPartDownload({ })
   expect(response.statusCode).toBe(400)
   expect(response.body.ok).toBe(false)
 })

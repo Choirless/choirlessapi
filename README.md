@@ -13,6 +13,13 @@ The following environment variables configure how the API accesses the database
 - `COUCH_CHOIRLESS_DATABASE` - the name of the main choirless database (stores choirs/members/songs/parts).
 - `COUCH_KEYS_DATABASE` - the name of the database for storing API access keys.
 - `COUCH_RENDER_DATABASE` - the name of the database to store render status objects.
+- `COUCH_INVITATION_DATABASE` - the name of the invitations database.
+- `LOCAL_MODE` - if `true` runs without authentication middleware
+- `COS_REGION` - the Cloudant object storage region
+- `COS_ACCESS_KEY_ID` - Cloud Object Storage credentials
+- `COS_ACCESS_KEY_SECRET` - Cloud Object Storage credentials
+- `COS_DEFAULT_BUCKET` - Cloud Object Storage raw upload bucket
+- `COS_ENDPOINT` - Cloud Object Storage endpoint
 
 ### W3ID Environment Variables
 

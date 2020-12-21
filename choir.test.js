@@ -11,6 +11,12 @@ process.env.COUCH_URL = COUCH_URL
 process.env.COUCH_USERS_DATABASE = DB1
 process.env.COUCH_CHOIRLESS_DATABASE = DB2
 process.env.COUCH_QUEUE_DATABASE = DB3
+process.env.COS_ACCESS_KEY_ID = 'xxxx1234'
+process.env.COS_ACCESS_KEY_SECRET = 'yyyy4321'
+process.env.COS_ENDPOINT = 's3.eu-gb.cloud-object-storage.appdomain.cloud'
+process.env.COS_REGION = 'eu-gb'
+process.env.COS_DEFAULT_BUCKET = 'choirless-videos-raw'
+
 const postUser = require('./postUser.js')
 const postChoir = require('./postChoir.js')
 const getChoir = require('./getChoir.js')
@@ -23,6 +29,8 @@ const getChoirSongs = require('./getChoirSongs.js')
 const postChoirSongPartName = require('./postChoirSongPartName.js')
 const deleteChoirSongPartName = require('./deleteChoirSongPartName.js')
 const postChoirSongPart = require('./postChoirSongPart.js')
+const postChoirSongPartUpload = require('./postChoirSongPartUpload.js')
+const postChoirSongPartDownload = require('./postChoirSongPartDownload.js')
 const getChoirSongPart = require('./getChoirSongPart.js')
 const getChoirSongParts = require('./getChoirSongParts.js')
 const getUserChoirs = require('./getUserChoirs.js')
@@ -871,6 +879,60 @@ test('deleteChoirSong - delete song', async () => {
   // check song doesn't exist
   response = await getChoirSong({ songId: song1, choirId: london })
   expect(response.statusCode).toBe(404)
+  expect(response.body.ok).toBe(false)
+})
+
+test('postChoirSongPartUpload - upload presign', async () => {
+  const response = await postChoirSongPartUpload({ songId: song1, choirId: london, partId: part1, extension: 'webm' })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.url).toBe('string')
+  expect(typeof response.body.key).toBe('string')
+  expect(response.body.method).toBe('PUT')
+})
+
+test('postChoirSongPartUpload - upload missing params', async () => {
+  let response = await postChoirSongPartUpload({ choirId: london, partId: part1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+
+  response = await postChoirSongPartUpload({ songId: song1, partId: part1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+
+  response = await postChoirSongPartUpload({ songId: song1, choirId: london })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+
+  response = await postChoirSongPartUpload({ })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+})
+
+test('postChoirSongPartDownload - download presign', async () => {
+  const response = await postChoirSongPartDownload({ songId: song1, choirId: london, partId: part1 })
+  expect(response.statusCode).toBe(200)
+  expect(response.body.ok).toBe(true)
+  expect(typeof response.body.url).toBe('string')
+  expect(typeof response.body.key).toBe('string')
+  expect(response.body.method).toBe('GET')
+})
+
+test('postChoirSongPartDownload - download missing params', async () => {
+  let response = await postChoirSongPartDownload({ choirId: london, partId: part1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+
+  response = await postChoirSongPartDownload({ songId: song1, partId: part1 })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+
+  response = await postChoirSongPartDownload({ songId: song1, choirId: london })
+  expect(response.statusCode).toBe(400)
+  expect(response.body.ok).toBe(false)
+
+  response = await postChoirSongPartDownload({ })
+  expect(response.statusCode).toBe(400)
   expect(response.body.ok).toBe(false)
 })
 

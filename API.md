@@ -322,6 +322,51 @@ Returns
 }
 ```
 
+### POST /choir/songpart/upload
+
+Allows the upload of a song part's video file by creating a presigned URL that can be used by the front-end to upload the song part without having access to COS.
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+- `partId` - the id of the part (required)
+- `extension` - the file extension (required) e.g. 'webm'
+
+Returns:
+
+```js
+{
+  ok: true,
+  method: 'PUT',
+  url: 'https://some.url.com/path/key',
+  bucket: 'mybucket',
+  key: 'x+y+z.webm'
+}
+```
+
+### POST /choir/songpart/download
+
+Allows the download of a song part's video file by creating a presigned URL that can be used by the front-end to fetch the song part without having access to COS.
+
+Parameters:
+
+- `choirId` - the id of the choir (required)
+- `songId` - the id of the song (required)
+- `partId` - the id of the part (required)
+
+Returns:
+
+```js
+{
+  ok: true,
+  method: 'GET',
+  url: 'https://some.url.com/path/key',
+  bucket: 'mybucket',
+  key: 'x+y+z.webm'
+}
+```
+
 ### GET /choir/songpart
 
 Get a single songpart

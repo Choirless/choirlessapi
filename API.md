@@ -10,7 +10,7 @@ An API key can be generated at the `/keys` endpoint of the API server.
 
 ### GET /user
 
-Fetch a user by known userId and the choirs they have joined.
+Fetch a user by known userId.
 
 Parameters:
 
@@ -21,8 +21,7 @@ Returns
 ```js
 {
   ok: true,
-  user: { ... user document ... },
-  choirs: [ { ... choir doc ..., ... choir doc ... }]
+  user: { ... user document ... }
 }
 ```
 
@@ -66,8 +65,7 @@ Returns:
 ```js
 {
   ok: true,
-  user : { ... user doc ... },
-  choirs: [ { choir1 }. { choir 2 } ]
+  user : { ... user doc ... }
 }
 ```
 

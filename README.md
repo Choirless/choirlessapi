@@ -1,25 +1,25 @@
 # Choirless API
 
-The Choirless API allows easy manipulation of data stored in the Choirless music collabortion platform.
+The Choirless API allows easy manipulation of data stored in the Choirless music collaboration platform.
 
-This API can be deployed to IBM Cloud Functions (OpenWhisk) or during development, run locally as a Node.js/Express app. Application data is stored in Cloudant/CouchDB databases.
+This API can be deployed to IBM Cloud Functions (based on Apache OpenWhisk) or during development, run locally as a Node.js/Express app. Application data is stored in Cloudant/Apache CouchDB databases.
 
 ## Configuration
 
-The following environment variables configure how the API accesses the database
+The following environment variables configure how the API accesses the database:
 
 - `COUCH_URL` - the URL of the CouchDB/Cloudant service e.g. `http://admin:admin@localhost:5984`.
 - `COUCH_USERS_DATABASE` - the name of the users database, storing registered Choirless users.
-- `COUCH_CHOIRLESS_DATABASE` - the name of the main choirless database (stores choirs/members/songs/parts).
+- `COUCH_CHOIRLESS_DATABASE` - the name of the main Choirless database (stores choirs/members/songs/parts).
 - `COUCH_KEYS_DATABASE` - the name of the database for storing API access keys.
 - `COUCH_RENDER_DATABASE` - the name of the database to store render status objects.
 - `COUCH_INVITATION_DATABASE` - the name of the invitations database.
-- `LOCAL_MODE` - if `true` runs without authentication middleware
-- `COS_REGION` - the Cloudant object storage region
-- `COS_ACCESS_KEY_ID` - Cloud Object Storage credentials
-- `COS_ACCESS_KEY_SECRET` - Cloud Object Storage credentials
-- `COS_DEFAULT_BUCKET` - Cloud Object Storage raw upload bucket
-- `COS_ENDPOINT` - Cloud Object Storage endpoint
+- `LOCAL_MODE` - if `true` runs without authentication middleware.
+- `COS_REGION` - the Cloud Object Storage region.
+- `COS_ACCESS_KEY_ID` - Cloud Object Storage credentials.
+- `COS_ACCESS_KEY_SECRET` - Cloud Object Storage credentials.
+- `COS_DEFAULT_BUCKET` - Cloud Object Storage raw upload bucket.
+- `COS_ENDPOINT` - Cloud Object Storage endpoint.
 
 ### W3ID Environment Variables
 
@@ -42,7 +42,7 @@ npm run test
 
 Tests are configured to run automatically in Travis.
 
-## Running dev server
+## Running the local dev server
 
 The API can be run locally with:
 
@@ -52,7 +52,7 @@ export LOCAL_MODE="true"
 npm run server
 ```
 
-## Deploying serverless deployment
+## Deploying serverlessly on IBM Cloud Functions
 
 ```sh
 echo 'to do'
@@ -87,20 +87,20 @@ main()
 
 Every function expects an object with parameters listed in the [API Reference](API.md) and returns a Promise:
 
-- getUser
-- postUser
-- postUserLogin
-- getUserChoirs
-- getChoir
-- getChoirMembers
-- getChoirSong
-- getChoirSongs
-- postChoir
-- postChoirJoin
-- postChoirSong
-- postChoirSongPart
-- getChoirSongPart
-- getChoirSongParts
+- [`getUser`](getUser.js)
+- [`postUser`](postUser.js)
+- [`postUserLogin`](postUserLogin.js)
+- [`getUserChoirs`](getUserChoirs.js)
+- [`getChoir`](getChoir.js)
+- [`getChoirMembers`](getChoirMembers.js)
+- [`getChoirSong`](getChoirSong.js)
+- [`getChoirSongs`](getChoirSongs.js)
+- [`postChoir`](postChoir.js)
+- [`postChoirJoin`](postChoirJoin.js)
+- [`postChoirSong`](postChoirSong.js)
+- [`postChoirSongPart`](postChoirSongPart.js)
+- [`getChoirSongPart`](getChoirSongPart.js)
+- [`getChoirSongParts`](getChoirSongParts.js)
 
 ## API Reference
 
@@ -161,7 +161,7 @@ The following objects are stored:
 }
 ```
 
-choirType:
+`choirType`:
 
 - `private` - invite only
 - `public` - anyone can join
@@ -180,7 +180,7 @@ choirType:
 }
 ```
 
-memberType:
+`memberType`:
 
 - `leader` - can create songs, and reference parts
 - `member` - can create renditions of parts
@@ -233,7 +233,7 @@ memberType:
 }
 ```
 
-partType:
+`partType`:
 
 - `backing` - backing track
 - `reference` - exemplar rendition of part
